@@ -1,0 +1,89 @@
+.partners-page {
+    padding-top: 150px;
+}
+
+
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.partner-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.partner-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    background: rgba(0, 210, 255, 0.05);
+}
+
+.partner-logo-box {
+    width: 60px;
+    height: 60px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    border: 1px solid var(--card-border);
+}
+
+.partner-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.partner-info p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.join-invitation {
+    padding: 5rem 0;
+}
+
+.cta-box {
+    background: var(--bg-secondary);
+    padding: 4rem;
+    border-radius: 32px;
+    text-align: center;
+    border: 1px solid var(--card-border);
+}
+
+.cta-box h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-box p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 1024px) {
+    .partners-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .partners-grid {
+        grid-template-columns: 1fr;
+    }
+}

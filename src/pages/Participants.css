@@ -1,0 +1,259 @@
+/*Participants Page - Premium & Consistent Layout */
+.participants-page {
+    background: var(--bg-color);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* --- Hero Section --- */
+.hero-participants {
+    padding: 180px 0 100px;
+    position: relative;
+    z-index: 1;
+}
+
+.page-header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* --- Benefits Section (Similar to Stats/Values) --- */
+.benefits-section {
+    padding: var(--space-3xl) 0;
+    position: relative;
+    z-index: 2;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.benefit-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.benefit-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -12px rgba(11, 55, 91, 0.12);
+    border-color: rgba(37, 99, 235, 0.1);
+}
+
+.benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--brand-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.benefit-card:hover::before {
+    opacity: 1;
+}
+
+.benefit-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    background: var(--bg-secondary);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon-wrapper {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+}
+
+.benefit-content h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.benefit-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* --- How To Join (Timeline) --- */
+.how-to-join {
+    padding: 120px 0;
+    background: linear-gradient(to bottom, var(--white) 0%, var(--bg-secondary) 100%);
+    position: relative;
+    border-top: 1px solid var(--border-light);
+}
+
+.steps-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.steps-timeline {
+    position: relative;
+    margin-top: 60px;
+}
+
+.steps-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent 0%, var(--border-light) 15%, var(--border-light) 85%, transparent 100%);
+    transform: translateX(-50%);
+}
+
+.step-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.step-item:last-child {
+    margin-bottom: 0;
+}
+
+.step-item.even {
+    flex-direction: row-reverse;
+}
+
+.step-content {
+    width: 45%;
+    background: var(--white);
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-light);
+}
+
+.step-item:hover .step-content {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: transparent;
+}
+
+.step-number {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 56px;
+    background: var(--white);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+    z-index: 2;
+    box-shadow: 0 0 0 8px var(--bg-color);
+    /* Masking effect */
+}
+
+.step-item:hover .step-number {
+    background: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 0 0 8px var(--bg-color), 0 0 15px rgba(37, 99, 235, 0.4);
+}
+
+.step-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.step-desc {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.join-cta {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.primary-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 16px 48px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.4);
+    background: var(--accent-color);
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-line {
+        left: 28px;
+    }
+
+    .step-item,
+    .step-item.even {
+        flex-direction: column;
+        padding-left: 80px;
+    }
+
+    .step-content {
+        width: 100%;
+    }
+
+    .step-number,
+    .step-item .step-number {
+        left: 28px;
+        transform: translateX(-50%);
+    }
+}
