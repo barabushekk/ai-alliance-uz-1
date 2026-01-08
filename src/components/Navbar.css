@@ -245,3 +245,78 @@
         display: block;
     }
 }
+
+/* Mobile Specific Improvements */
+@media (max-width: 640px) {
+    .navbar {
+        height: 64px;
+    }
+
+    .navbar.scrolled {
+        height: 60px;
+    }
+
+    .nav-logo-img {
+        height: 48px;
+    }
+
+    .navbar.scrolled .nav-logo-img {
+        height: 40px;
+    }
+
+    .mobile-sidebar {
+        width: 280px;
+        padding: 20px;
+    }
+
+    .sidebar-header {
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+    }
+
+    .sidebar-title {
+        font-size: 12px;
+    }
+
+    .close-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sidebar-item {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .sidebar-item:hover,
+    .sidebar-item.active {
+        padding-left: 16px;
+    }
+
+    .sidebar-footer {
+        padding-top: 20px;
+    }
+
+    /* Fix language switcher in mobile sidebar */
+    .sidebar-footer .language-switcher {
+        width: 100%;
+    }
+
+    .sidebar-footer .lang-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px;
+        background: var(--bg-color);
+        border-radius: 12px;
+    }
+
+    .sidebar-footer .lang-dropdown {
+        left: 0;
+        right: 0;
+        width: 100%;
+        top: auto;
+        bottom: calc(100% + 4px);
+        margin-top: 0;
+        margin-bottom: 8px;
+    }
+}

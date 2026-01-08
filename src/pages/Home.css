@@ -568,3 +568,169 @@
         gap: 32px;
     }
 }
+
+/* Mobile Optimization for Small Screens */
+@media (max-width: 640px) {
+    .section-padding {
+        padding: 32px 0;
+    }
+
+    .clean-heading {
+        font-size: 28px;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+    }
+
+    .clean-text {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .section-tag {
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    /* About Section Mobile */
+    .about-visual-right {
+        height: 250px;
+    }
+
+    .metric-card {
+        width: 180px;
+        padding: 12px;
+    }
+
+    .mc-val {
+        font-size: 18px;
+    }
+
+    .mc-lbl {
+        font-size: 12px;
+    }
+
+    .mc-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Projects Mobile */
+    .project-card {
+        padding: 20px;
+    }
+
+    .project-card h3 {
+        font-size: 18px;
+    }
+
+    .project-card p {
+        font-size: 14px;
+    }
+
+    .proj-icon-box {
+        width: 40px;
+        height: 40px;
+    }
+
+    .proj-status {
+        font-size: 10px;
+        padding: 3px 8px;
+        top: 16px;
+        right: 16px;
+    }
+
+    /* Working Groups Mobile */
+    .wg-left-content h2 {
+        font-size: 24px;
+        margin-bottom: 16px;
+    }
+
+    .wg-left-content p {
+        font-size: 15px;
+    }
+
+    .wg-item-row {
+        padding: 16px;
+    }
+
+    .wg-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 16px;
+    }
+
+    .wg-text h4 {
+        font-size: 15px;
+    }
+
+    .wg-text p {
+        font-size: 13px;
+    }
+
+    /* Feature Section Mobile */
+    .section-blue {
+        padding: 32px 20px;
+        margin: 32px 12px;
+        border-radius: 20px;
+    }
+
+    .feature-left h2 {
+        font-size: 24px;
+        margin-bottom: 16px;
+    }
+
+    .feature-left p {
+        font-size: 15px;
+    }
+
+    .feature-item {
+        font-size: 14px;
+    }
+
+    .feature-dash {
+        font-size: 16px;
+    }
+
+    /* Mission Section Mobile */
+    .mission-col h4 {
+        font-size: 14px;
+    }
+
+    .mission-col p {
+        font-size: 16px;
+    }
+
+    /* Partners Mobile */
+    .partners-card {
+        padding: 28px 16px;
+        border-radius: 20px;
+    }
+
+    .partners-unified-grid {
+        gap: 24px 32px;
+    }
+
+    .partner-logo-plain {
+        font-size: 16px;
+    }
+
+    /* Buttons Mobile */
+    .btn-clean-primary,
+    .btn-clean-outline {
+        padding: 12px 24px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Grid Adjustments */
+    .partners-grid-fixed {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .partner-box {
+        height: 72px;
+        font-size: 14px;
+    }
+}

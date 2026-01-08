@@ -1,89 +1,355 @@
+/* Partners Page - Professional & Symmetrical Layout */
 .partners-page {
-    padding-top: 150px;
+    background: var(--bg-color);
+    overflow-x: hidden;
 }
 
+/* Strategic Partners Section */
+.strategic-partners-section {
+    padding: var(--space-3xl) 0;
+    background: linear-gradient(to bottom, var(--bg-color) 0%, #fff 100%);
+}
 
-.partners-grid {
+.section-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-title {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.strategic-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 5rem;
+    gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
 }
 
-.partner-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 20px;
-    padding: 2rem;
+.strategic-card {
+    background: var(--white);
+    padding: 40px 32px;
+    border-radius: 24px;
+    border: 1px solid var(--border-light);
+    transition: all 0.4s ease;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    transition: all 0.3s ease;
+    text-align: center;
 }
 
-.partner-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary-color);
-    background: rgba(0, 210, 255, 0.05);
+.strategic-card:hover {
+    border-color: transparent;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+    transform: translateY(-8px);
 }
 
-.partner-logo-box {
-    width: 60px;
-    height: 60px;
-    background: var(--bg-secondary);
-    border-radius: 12px;
+.partner-logo {
+    width: 80px;
+    height: 80px;
+    background: rgba(52, 156, 214, 0.1);
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 28px;
     font-weight: 800;
+    color: var(--accent-color);
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+}
+
+.strategic-card:hover .partner-logo {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+.partner-content {
+    width: 100%;
+}
+
+.partner-category {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.partner-name {
+    font-size: 24px;
+    font-weight: 700;
     color: var(--primary-color);
-    border: 1px solid var(--card-border);
+    margin-bottom: 8px;
 }
 
-.partner-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.2rem;
+.partner-role {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 16px;
 }
 
-.partner-info p {
-    font-size: 0.9rem;
+.partner-description {
+    font-size: 15px;
+    line-height: 1.6;
     color: var(--text-secondary);
 }
 
-.join-invitation {
-    padding: 5rem 0;
+/* Categories Section */
+.categories-section {
+    padding: 100px 0;
+    background: var(--white);
 }
 
-.cta-box {
-    background: var(--bg-secondary);
-    padding: 4rem;
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.category-card {
+    background: var(--white);
+    padding: 40px 32px;
+    border-radius: 24px;
+    border: 1px solid var(--border-light);
+    transition: all 0.4s ease;
+}
+
+.category-card:hover {
+    border-color: transparent;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+    transform: translateY(-8px);
+}
+
+.category-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(52, 156, 214, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+.category-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 24px;
+}
+
+.partners-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.partner-item {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.partner-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.partner-item-name {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.partner-item-location {
+    display: block;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Benefits Section */
+.benefits-section {
+    padding: 100px 0;
+    background: linear-gradient(to bottom, var(--white) 0%, var(--bg-color) 100%);
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.benefit-card {
+    padding: 40px 32px;
+    border-radius: 24px;
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.benefit-card:hover {
+    border-color: transparent;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+    transform: translateY(-8px);
+}
+
+.benefit-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(52, 156, 214, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: scale(1.1) rotate(5deg);
+}
+
+.benefit-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.benefit-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 80px 0 140px;
+    background: var(--bg-color);
+}
+
+.cta-card {
+    background: var(--white);
+    padding: 80px 60px;
     border-radius: 32px;
     text-align: center;
-    border: 1px solid var(--card-border);
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
 }
 
-.cta-box h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+.cta-title {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    letter-spacing: -1px;
 }
 
-.cta-box p {
+.cta-description {
+    font-size: 18px;
+    line-height: 1.7;
     color: var(--text-secondary);
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 700px;
+    margin: 0 auto 40px;
 }
 
+.primary-btn {
+    background: var(--brand-gradient);
+    color: white;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(52, 156, 214, 0.2);
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(52, 156, 214, 0.3);
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
-    .partners-grid {
+
+    .strategic-grid,
+    .categories-grid,
+    .benefits-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section-title {
+        font-size: 36px;
+    }
+
+    .cta-title {
+        font-size: 36px;
     }
 }
 
 @media (max-width: 640px) {
-    .partners-grid {
+
+    .strategic-grid,
+    .categories-grid,
+    .benefits-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 32px;
+    }
+
+    .cta-card {
+        padding: 60px 30px;
+    }
+
+    .cta-title {
+        font-size: 28px;
+    }
+
+    .cta-description {
+        font-size: 16px;
     }
 }

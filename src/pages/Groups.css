@@ -1,58 +1,399 @@
+/* Working Groups Page - Professional & Symmetrical Layout */
 .groups-page {
-    padding-top: 150px;
+    background: var(--bg-color);
+    overflow-x: hidden;
 }
 
-.groups-grid {
+/* Groups Stats Section */
+.groups-stats-section {
+    padding: var(--space-3xl) 0;
+    position: relative;
+    z-index: 2;
+    margin-top: -60px;
+    background: linear-gradient(to bottom, var(--bg-color) 0%, #fff 50%);
+}
+
+.stats-grid-groups {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-    margin-bottom: 5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.group-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 20px;
-    padding: 2.5rem;
-    transition: all 0.3s ease;
+.stat-card-group {
+    background: var(--white);
+    padding: 40px 24px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.group-card:hover {
-    border-color: var(--accent-color);
-    background: rgba(127, 0, 255, 0.05);
+.stat-card-group::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--brand-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.group-header {
+.stat-card-group:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -12px rgba(11, 55, 91, 0.12);
+}
+
+.stat-card-group:hover::before {
+    opacity: 1;
+}
+
+.stat-icon {
+    color: var(--accent-color);
+    margin-bottom: 16px;
+}
+
+.stat-value {
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    background: var(--brand-gradient-deep);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.stat-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Working Groups Section */
+.working-groups-section {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-title {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.groups-list {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.group-card-featured {
+    background: var(--white);
+    border-radius: 32px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.group-card-featured:hover {
+    border-color: transparent;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+}
+
+.group-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+}
+
+.group-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.group-card-featured:hover .group-image {
+    transform: scale(1.05);
+}
+
+.group-icon-overlay {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    justify-content: center;
+    color: var(--accent-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.group-icon {
+.group-content {
+    padding: 40px;
+}
+
+.group-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+.group-leads {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(52, 156, 214, 0.05);
+    border-left: 3px solid var(--accent-color);
+    border-radius: 8px;
+}
+
+.leads-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.leads-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.group-focus {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+}
+
+.group-objectives {
+    margin-bottom: 28px;
+}
+
+.objectives-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.objectives-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.objectives-list li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.objectives-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.group-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.meta-item svg {
     color: var(--accent-color);
 }
 
-.group-icon svg {
-    width: 32px;
-    height: 32px;
+/* CTA Section */
+.groups-cta-section {
+    padding: 80px 0 140px;
+    background: linear-gradient(to bottom, var(--white) 0%, var(--bg-color) 100%);
 }
 
-.group-header h3 {
-    font-size: 1.5rem;
+.cta-card {
+    background: var(--white);
+    padding: 80px 60px;
+    border-radius: 32px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
 }
 
-.group-body p {
+.cta-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(52, 156, 214, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.cta-icon {
+    color: var(--accent-color);
+    margin: 0 auto 24px;
+}
+
+.cta-title {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.cta-description {
+    font-size: 18px;
+    line-height: 1.7;
     color: var(--text-secondary);
-    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto 40px;
 }
 
-.mt-1 {
-    margin-top: 1rem;
+.primary-btn {
+    background: var(--brand-gradient);
+    color: white;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(52, 156, 214, 0.2);
 }
 
-@media (max-width: 768px) {
-    .groups-grid {
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(52, 156, 214, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .stats-grid-groups {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 36px;
+    }
+
+    .group-title {
+        font-size: 24px;
+    }
+
+    .group-image-wrapper {
+        height: 240px;
+    }
+
+    .cta-title {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 640px) {
+    .stats-grid-groups {
         grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 48px;
+    }
+
+    .section-title {
+        font-size: 32px;
+    }
+
+    .group-content {
+        padding: 30px 24px;
+    }
+
+    .group-meta {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .cta-card {
+        padding: 60px 30px;
+    }
+
+    .cta-title {
+        font-size: 28px;
+    }
+
+    .cta-description {
+        font-size: 16px;
+    }
+
+    .group-image-wrapper {
+        height: 200px;
     }
 }

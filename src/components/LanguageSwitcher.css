@@ -51,14 +51,14 @@
 .lang-dropdown {
     position: absolute;
     right: 0;
-    top: 100%;
+    top: calc(100% + 4px);
     margin-top: 8px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     min-width: 160px;
-    z-index: 100;
+    z-index: 9999;
     animation: fadeIn 0.15s ease-out;
 }
 

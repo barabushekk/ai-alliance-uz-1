@@ -20,7 +20,11 @@ const resources = {
             "footer": {
                 "rights": "All rights reserved.",
                 "contact": "Contact Us",
-                "address": "Tashkent, Uzbekistan"
+                "contacts": "Contacts",
+                "address": "Tashkent, Uzbekistan",
+                "description": "Development of the artificial intelligence ecosystem in Uzbekistan. Combining government, science, and business for a technological future.",
+                "navigation": "Navigation",
+                "resources": "Resources"
             },
             "about_page": {
                 "values_title": "Our Values",
@@ -58,7 +62,11 @@ const resources = {
             "footer": {
                 "rights": "Все права защищены.",
                 "contact": "Контакты",
-                "address": "Ташкент, Узбекистан"
+                "contacts": "Контакты",
+                "address": "Ташкент, Узбекистан",
+                "description": "Развитие экосистемы искусственного интеллекта в Узбекистане. Объединяем государство, науку и бизнес для технологического будущего.",
+                "navigation": "Навигация",
+                "resources": "Ресурсы"
             },
             "about_page": {
                 "values_title": "Наши Ценности",
@@ -96,7 +104,11 @@ const resources = {
             "footer": {
                 "rights": "Barcha huquqlar himoyalangan.",
                 "contact": "Bog'lanish",
-                "address": "Toshkent, O'zbekiston"
+                "contacts": "Kontaktlar",
+                "address": "Toshkent, O'zbekiston",
+                "description": "O'zbekistonda sun'iy intellekt ekotizimini rivojlantirish. Davlat, fan va biznesni texnologik kelajak uchun birlashtiramiz.",
+                "navigation": "Navigatsiya",
+                "resources": "Resurslar"
             },
             "about_page": {
                 "values_title": "Bizning Qadriyatlarimiz",
