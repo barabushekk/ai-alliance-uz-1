@@ -249,12 +249,10 @@
 @media (max-width: 640px) {
     .hero {
         padding-top: 100px;
-        padding-bottom: 40px;
-        min-height: 100vh;
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        /* Reduced from header height + padding */
+        padding-bottom: 60px;
+        min-height: auto;
+        /* Allow natural height on mobile */
     }
 
     .hero-title {
