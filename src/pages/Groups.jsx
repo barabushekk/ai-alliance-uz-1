@@ -70,7 +70,7 @@ const Groups = () => {
     ];
 
     const stats = [
-        { value: '4', label: 'Рабочие группы', icon: <Users size={24} /> },
+        { value: '4', label: 'Комитета', icon: <Users size={24} /> },
         { value: '70+', label: 'Активных экспертов', icon: <Target size={24} /> },
         { value: '15+', label: 'Инициатив в работе', icon: <TrendingUp size={24} /> },
         { value: '2024', label: 'Год основания', icon: <Calendar size={24} /> }
@@ -87,17 +87,17 @@ const Groups = () => {
                         className="page-header"
                     >
                         <h1 className="page-title">
-                            Рабочие <span className="gradient-text">Группы</span>
+                            <span className="gradient-text">Комитеты</span>
                         </h1>
                         <p className="page-desc">
-                            Экспертные центры компетенций, решающие ключевые задачи развития ИИ-экосистемы Узбекистана.
+                            Постоянно действующие отраслевые комитеты, решающие ключевые задачи развития ИИ-экосистемы Узбекистана.
                         </p>
                     </motion.div>
                 </div>
-            </section>
+            </section >
 
             {/* Stats Section */}
-            <section className="groups-stats-section">
+            < section className="groups-stats-section" >
                 <div className="container">
                     <div className="stats-grid-groups">
                         {stats.map((stat, i) => (
@@ -116,10 +116,10 @@ const Groups = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Working Groups Section */}
-            <section className="working-groups-section">
+            < section className="working-groups-section" >
                 <div className="container">
                     <div className="section-header">
                         <h2 className="section-title">Направления работы</h2>
@@ -177,10 +177,10 @@ const Groups = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* CTA Section */}
-            <section className="groups-cta-section">
+            < section className="groups-cta-section" >
                 <div className="container">
                     <motion.div
                         className="cta-card"
@@ -189,15 +189,15 @@ const Groups = () => {
                         viewport={{ once: true }}
                     >
                         <Users className="cta-icon" size={48} />
-                        <h2 className="cta-title">Присоединяйтесь к рабочим группам</h2>
+                        <h2 className="cta-title">Присоединяйтесь к комитетам</h2>
                         <p className="cta-description">
-                            Мы приглашаем экспертов, исследователей и практиков для участия в работе групп. Внесите свой вклад в развитие ИИ-экосистемы Узбекистана.
+                            Мы приглашаем экспертов, исследователей и практиков для участия в экспертных обсуждениях. Внесите свой вклад в развитие ИИ-экосистемы Узбекистана.
                         </p>
                         <button className="primary-btn">Подать заявку на участие</button>
                     </motion.div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     );
 };
 

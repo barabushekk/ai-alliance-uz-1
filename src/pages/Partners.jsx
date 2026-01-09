@@ -87,7 +87,7 @@ const Partners = () => {
                         className="page-header"
                     >
                         <h1 className="page-title">
-                            Партнеры и <span className="gradient-text">Участники</span>
+                            Партнеры
                         </h1>
                         <p className="page-desc">
                             Сообщество лидеров, формирующих цифровой суверенитет Узбекистана через развитие экосистемы искусственного интеллекта.

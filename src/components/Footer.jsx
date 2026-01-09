@@ -31,9 +31,7 @@ const Footer = () => {
                         <Link to="/" className="footer-logo">
                             <img src={logoLight} alt="AI Alliance" className="footer-logo-img" />
                         </Link>
-                        <p className="footer-desc">
-                            {t('footer.description', 'Развитие экосистемы искусственного интеллекта в Узбекистане. Объединяем государство, науку и бизнес для технологического будущего.')}
-                        </p>
+
                         <div className="social-links">
                             <a href="#" aria-label="Telegram" className="social-item">
                                 <Send size={20} />

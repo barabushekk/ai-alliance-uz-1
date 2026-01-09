@@ -12,7 +12,7 @@ const resources = {
                 "participants": "Participants",
                 "partners": "Partners",
                 "projects": "Projects",
-                "groups": "Working Groups",
+                "groups": "Committees",
                 "knowledge": "Knowledge Base",
                 "news": "News",
                 "join": "Join Alliance"
@@ -22,7 +22,7 @@ const resources = {
                 "contact": "Contact Us",
                 "contacts": "Contacts",
                 "address": "Tashkent, Uzbekistan",
-                "description": "Development of the artificial intelligence ecosystem in Uzbekistan. Combining government, science, and business for a technological future.",
+
                 "navigation": "Navigation",
                 "resources": "Resources"
             },
@@ -54,7 +54,7 @@ const resources = {
                 "participants": "Участники",
                 "partners": "Партнеры",
                 "projects": "Проекты",
-                "groups": "Рабочие группы",
+                "groups": "Комитеты",
                 "knowledge": "База знаний",
                 "news": "Новости",
                 "join": "Вступить"
@@ -64,7 +64,7 @@ const resources = {
                 "contact": "Контакты",
                 "contacts": "Контакты",
                 "address": "Ташкент, Узбекистан",
-                "description": "Развитие экосистемы искусственного интеллекта в Узбекистане. Объединяем государство, науку и бизнес для технологического будущего.",
+
                 "navigation": "Навигация",
                 "resources": "Ресурсы"
             },
@@ -96,7 +96,7 @@ const resources = {
                 "participants": "Ishtirokchilar",
                 "partners": "Hamkorlar",
                 "projects": "Loyihalar",
-                "groups": "Ishchi guruhlar",
+                "groups": "Qo'mitalar",
                 "knowledge": "Bilimlar bazasi",
                 "news": "Yangiliklar",
                 "join": "Qo'shilish"
@@ -106,7 +106,7 @@ const resources = {
                 "contact": "Bog'lanish",
                 "contacts": "Kontaktlar",
                 "address": "Toshkent, O'zbekiston",
-                "description": "O'zbekistonda sun'iy intellekt ekotizimini rivojlantirish. Davlat, fan va biznesni texnologik kelajak uchun birlashtiramiz.",
+
                 "navigation": "Navigatsiya",
                 "resources": "Resurslar"
             },

@@ -118,7 +118,7 @@ const Home = () => {
                 <div className="container">
                     <div className="wg-layout">
                         <div className="wg-left-content">
-                            <span className="section-tag">РАБОЧИЕ ГРУППЫ</span>
+                            <span className="section-tag">КОМИТЕТЫ</span>
                             <h2>Экспертиза и стандарты</h2>
                             <p>
                                 Мы разрабатываем фундамент для безопасного и этичного ИИ.
