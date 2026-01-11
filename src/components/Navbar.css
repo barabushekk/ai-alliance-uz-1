@@ -39,6 +39,13 @@
     gap: 12px;
     text-decoration: none;
     transition: transform 0.2s ease;
+    min-width: 200px;
+}
+
+.nav-right {
+    min-width: 200px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .navbar-logo:hover {
@@ -61,7 +68,10 @@
 /* Desktop Menu */
 .nav-menu {
     display: flex;
-    gap: 4px;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
 .nav-item {

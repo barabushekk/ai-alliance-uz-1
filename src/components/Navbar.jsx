@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '../lib/supabaseClient';
 import LanguageSwitcher from './LanguageSwitcher';
 import './Navbar.css';
 
@@ -10,30 +11,53 @@ import logo from '../assets/logo.png';
 import logoLight from '../assets/logo-light.png';
 
 const Navbar = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navLinks, setNavLinks] = useState([]);
   const location = useLocation();
 
-  const navLinks = [
-    { title: t('nav.home'), path: '/' },
-    { title: t('nav.about'), path: '/about' },
-    { title: t('nav.participants'), path: '/participants' },
-    { title: t('nav.partners'), path: '/partners' },
-    { title: t('nav.projects'), path: '/projects' },
-    { title: t('nav.groups'), path: '/groups' },
-    { title: t('nav.knowledge'), path: '/knowledge' },
-    { title: t('nav.news'), path: '/news' },
-  ];
-
-  /* Scroll Detection */
+  /* Scroll & Data Detection */
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
+    fetchNavLinks();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const fetchNavLinks = async () => {
+    try {
+      const { data, error } = await supabase.from('site_pages')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+
+      if (error) throw error;
+
+      if (data) {
+        const formattedLinks = data.map(page => ({
+          title: t(`nav.${page.key}`),
+          path: page.path,
+          key: page.key
+        }));
+        setNavLinks(formattedLinks);
+      }
+    } catch (err) {
+      console.error('Error fetching nav links:', err);
+      // Fallback in case of error
+      setNavLinks([
+        { title: t('nav.home'), path: '/' },
+        { title: t('nav.about'), path: '/about' }
+      ]);
+    }
+  };
+
+  /* Listen for language changes to update titles */
+  useEffect(() => {
+    fetchNavLinks();
+  }, [i18n.language]);
 
   /* Lock Body Scroll when Menu Open */
   useEffect(() => {

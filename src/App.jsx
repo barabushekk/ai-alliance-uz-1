@@ -16,6 +16,13 @@ import Login from './pages/admin/Login';
 import AdminLayout from './pages/admin/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
 import AdminAbout from './pages/admin/AdminAbout';
+import AdminHome from './pages/admin/AdminHome';
+import AdminParticipants from './pages/admin/AdminParticipants';
+import AdminPartners from './pages/admin/AdminPartners';
+import AdminProjects from './pages/admin/AdminProjects';
+import AdminGroups from './pages/admin/AdminGroups';
+import AdminKnowledge from './pages/admin/AdminKnowledge';
+import AdminNews from './pages/admin/AdminNews';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
@@ -65,9 +72,14 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="home" element={<AdminHome />} />
             <Route path="about" element={<AdminAbout />} />
-            <Route path="participants" element={<div className="p-8">Participants Manager (Coming Soon)</div>} />
-            <Route path="projects" element={<div className="p-8">Projects Manager (Coming Soon)</div>} />
+            <Route path="participants" element={<AdminParticipants />} />
+            <Route path="partners" element={<AdminPartners />} />
+            <Route path="projects" element={<AdminProjects />} />
+            <Route path="groups" element={<AdminGroups />} />
+            <Route path="knowledge" element={<AdminKnowledge />} />
+            <Route path="news" element={<AdminNews />} />
             <Route path="settings" element={<div className="p-8">Settings (Coming Soon)</div>} />
           </Route>
         </Route>

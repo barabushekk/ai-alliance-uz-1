@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Globe, Info, Target, Eye, BarChart3, Star } from 'lucide-react';
+import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, ChevronDown, ChevronRight } from 'lucide-react';
 import IconPicker from '../../components/admin/IconPicker';
 
 const AdminAbout = () => {
@@ -8,6 +8,13 @@ const AdminAbout = () => {
     const [saving, setSaving] = useState(false);
     const [notification, setNotification] = useState(null);
     const [activeLang, setActiveLang] = useState('ru');
+    const [expandedSections, setExpandedSections] = useState({
+        hero: true,
+        mission: false,
+        vision: false,
+        stats: false,
+        values: false
+    });
 
     const [sections, setSections] = useState({
         hero: { title: '', description: '', title_uz: '', description_uz: '', title_en: '', description_en: '' },
@@ -47,6 +54,10 @@ const AdminAbout = () => {
 
     const getFieldName = (baseField) => {
         return activeLang === 'ru' ? baseField : `${baseField}_${activeLang}`;
+    };
+
+    const toggleSection = (section) => {
+        setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
     };
 
     const handleSectionChange = (key, field, value) => {
@@ -168,219 +179,349 @@ const AdminAbout = () => {
     );
 
     const languages = [
-        { code: 'ru', label: 'Русский', flag: '🇷🇺' },
-        { code: 'uz', label: "O'zbek", flag: '🇺🇿' },
-        { code: 'en', label: 'English', flag: '🇬🇧' }
+        { code: 'ru', label: 'RU', flag: '🇷🇺' },
+        { code: 'uz', label: 'UZ', flag: '🇺🇿' },
+        { code: 'en', label: 'EN', flag: '🇬🇧' }
     ];
 
-    return (
-        <div className="admin-page" style={{ paddingBottom: '120px' }}>
-            <div className="admin-page-header">
-                <div>
-                    <h2>Редактор "О нас"</h2>
-                    <p>Управление контентом страницы "О нас".</p>
-                </div>
+    const SectionHeader = ({ title, sectionKey }) => (
+        <div
+            className="accordion-header"
+            onClick={() => toggleSection(sectionKey)}
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '20px 24px',
+                background: expandedSections[sectionKey] ? '#f8fafc' : 'white',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                marginBottom: expandedSections[sectionKey] ? '16px' : '12px',
+                transition: 'all 0.2s'
+            }}
+        >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {expandedSections[sectionKey] ? <ChevronDown size={20} color="#2563eb" /> : <ChevronRight size={20} color="#64748b" />}
+                <span style={{ fontSize: '18px', fontWeight: '700', color: '#0f172a' }}>{title}</span>
+            </div>
+            <span style={{ fontSize: '12px', color: '#64748b', textTransform: 'uppercase', fontWeight: '600' }}>{activeLang}</span>
+        </div>
+    );
 
-                <div className="flex gap-2" style={{ background: '#e2e8f0', padding: '4px', borderRadius: '12px', display: 'flex' }}>
-                    {languages.map(lang => (
-                        <button
-                            key={lang.code}
-                            onClick={() => setActiveLang(lang.code)}
-                            className={`px-4 py-2 text-sm font-bold transition-all ${activeLang === lang.code ? 'active' : ''}`}
-                            style={{
-                                background: activeLang === lang.code ? 'white' : 'transparent',
-                                color: activeLang === lang.code ? '#2563eb' : '#64748b',
-                                border: 'none', borderRadius: '8px', cursor: 'pointer',
-                                boxShadow: activeLang === lang.code ? '0 4px 6px rgba(0,0,0,0.05)' : 'none',
-                                display: 'flex', alignItems: 'center', gap: '8px'
-                            }}
-                        >
-                            <span style={{ fontSize: '1.2rem' }}>{lang.flag}</span>
-                            {lang.code.toUpperCase()}
-                        </button>
-                    ))}
+    return (
+        <div className="admin-page" style={{ paddingBottom: '120px', maxWidth: '1400px', margin: '0 auto' }}>
+            {/* Header */}
+            <div style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                padding: '32px 40px',
+                borderRadius: '16px',
+                marginBottom: '32px',
+                boxShadow: '0 10px 40px rgba(102, 126, 234, 0.3)'
+            }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                        <h2 style={{ color: 'white', fontSize: '28px', fontWeight: '800', marginBottom: '8px' }}>Редактор "О нас"</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '15px' }}>Управление контентом страницы "О нас"</p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.2)', padding: '6px', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
+                        {languages.map(lang => (
+                            <button
+                                key={lang.code}
+                                onClick={() => setActiveLang(lang.code)}
+                                style={{
+                                    background: activeLang === lang.code ? 'white' : 'transparent',
+                                    color: activeLang === lang.code ? '#667eea' : 'white',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    padding: '10px 20px',
+                                    cursor: 'pointer',
+                                    fontWeight: '700',
+                                    fontSize: '14px',
+                                    transition: 'all 0.2s',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '6px'
+                                }}
+                            >
+                                <span>{lang.flag}</span>
+                                {lang.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
             {notification && (
-                <div className={`notification ${notification.type}`}>
-                    {notification.type === 'success' ? <CheckCircle size={24} /> : <AlertCircle size={24} />}
-                    <div style={{ fontWeight: 600 }}>{notification.message}</div>
+                <div style={{
+                    position: 'fixed',
+                    top: '24px',
+                    right: '24px',
+                    background: notification.type === 'success' ? '#10b981' : '#ef4444',
+                    color: 'white',
+                    padding: '16px 24px',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
+                    zIndex: 9999,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    fontWeight: '600'
+                }}>
+                    {notification.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+                    {notification.message}
                 </div>
             )}
 
             {/* Hero Section */}
-            <div className="edit-section">
-                <div className="section-label">
-                    <Info size={24} color="#2563eb" />
-                    Секция Hero
-                    <span className="section-label-badge">{activeLang}</span>
-                </div>
-                <div className="form-grid">
-                    <div>
-                        <span className="input-label">Главный заголовок</span>
-                        <input
-                            type="text"
-                            value={sections.hero[getFieldName('title')] || ''}
-                            onChange={(e) => handleSectionChange('hero', 'title', e.target.value)}
-                            placeholder="Введите заголовок..."
-                        />
+            <div style={{ marginBottom: '16px' }}>
+                <SectionHeader title="🎯 Hero Секция" sectionKey="hero" />
+                {expandedSections.hero && (
+                    <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'grid', gap: '16px' }}>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Главный заголовок</label>
+                                <input
+                                    type="text"
+                                    value={sections.hero[getFieldName('title')] || ''}
+                                    onChange={(e) => handleSectionChange('hero', 'title', e.target.value)}
+                                    placeholder="Введите заголовок..."
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '15px' }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Описание альянса</label>
+                                <textarea
+                                    value={sections.hero[getFieldName('description')] || ''}
+                                    onChange={(e) => handleSectionChange('hero', 'description', e.target.value)}
+                                    placeholder="Введите подробное описание..."
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', minHeight: '120px', fontSize: '15px', fontFamily: 'inherit' }}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span className="input-label">Описание альянса</span>
-                        <textarea
-                            value={sections.hero[getFieldName('description')] || ''}
-                            onChange={(e) => handleSectionChange('hero', 'description', e.target.value)}
-                            placeholder="Введите подробное описание..."
-                        />
-                    </div>
-                </div>
+                )}
             </div>
 
             {/* Mission & Vision */}
-            <div className="form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                <div className="edit-section">
-                    <div className="section-label">
-                        <Target size={24} color="#2563eb" />
-                        Миссия
-                        <span className="section-label-badge">{activeLang}</span>
-                    </div>
-                    <div className="form-grid">
-                        <div>
-                            <span className="input-label">Иконка</span>
-                            <IconPicker value={sections.mission.icon || 'Target'} onChange={(val) => handleSectionChange('mission', 'icon', val)} />
-                        </div>
-                        <div>
-                            <span className="input-label">Заголовок миссии</span>
-                            <input
-                                value={sections.mission[getFieldName('title')] || ''}
-                                onChange={(e) => handleSectionChange('mission', 'title', e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <span className="input-label">Текст миссии</span>
-                            <textarea
-                                value={sections.mission[getFieldName('description')] || ''}
-                                onChange={(e) => handleSectionChange('mission', 'description', e.target.value)}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="edit-section">
-                    <div className="section-label">
-                        <Eye size={24} color="#2563eb" />
-                        Видение
-                        <span className="section-label-badge">{activeLang}</span>
-                    </div>
-                    <div className="form-grid">
-                        <div>
-                            <span className="input-label">Иконка</span>
-                            <IconPicker value={sections.vision.icon || 'Eye'} onChange={(val) => handleSectionChange('vision', 'icon', val)} />
-                        </div>
-                        <div>
-                            <span className="input-label">Заголовок видения</span>
-                            <input
-                                value={sections.vision[getFieldName('title')] || ''}
-                                onChange={(e) => handleSectionChange('vision', 'title', e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <span className="input-label">Текст видения</span>
-                            <textarea
-                                value={sections.vision[getFieldName('description')] || ''}
-                                onChange={(e) => handleSectionChange('vision', 'description', e.target.value)}
-                            />
+            <div style={{ marginBottom: '16px' }}>
+                <SectionHeader title="🎯 Миссия" sectionKey="mission" />
+                {expandedSections.mission && (
+                    <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'grid', gap: '16px' }}>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Иконка</label>
+                                <IconPicker value={sections.mission.icon || 'Target'} onChange={(val) => handleSectionChange('mission', 'icon', val)} />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Заголовок миссии</label>
+                                <input
+                                    value={sections.mission[getFieldName('title')] || ''}
+                                    onChange={(e) => handleSectionChange('mission', 'title', e.target.value)}
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '15px' }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Текст миссии</label>
+                                <textarea
+                                    value={sections.mission[getFieldName('description')] || ''}
+                                    onChange={(e) => handleSectionChange('mission', 'description', e.target.value)}
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', minHeight: '100px', fontSize: '15px', fontFamily: 'inherit' }}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+                <SectionHeader title="👁️ Видение" sectionKey="vision" />
+                {expandedSections.vision && (
+                    <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'grid', gap: '16px' }}>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Иконка</label>
+                                <IconPicker value={sections.vision.icon || 'Eye'} onChange={(val) => handleSectionChange('vision', 'icon', val)} />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Заголовок видения</label>
+                                <input
+                                    value={sections.vision[getFieldName('title')] || ''}
+                                    onChange={(e) => handleSectionChange('vision', 'title', e.target.value)}
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '15px' }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Текст видения</label>
+                                <textarea
+                                    value={sections.vision[getFieldName('description')] || ''}
+                                    onChange={(e) => handleSectionChange('vision', 'description', e.target.value)}
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', minHeight: '100px', fontSize: '15px', fontFamily: 'inherit' }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Stats */}
-            <div className="edit-section">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                    <div className="section-label">
-                        <BarChart3 size={24} color="#2563eb" />
-                        Статистика альянса
-                    </div>
-                    <button onClick={addNewStat} className="btn-secondary">
-                        <Plus size={18} /> Добавить показатель
-                    </button>
-                </div>
-                <div className="form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                    {stats.map((stat, i) => (
-                        <div key={stat.id} className="list-item">
-                            <div className="list-item-header">
-                                <span className="item-number">Показатель #{i + 1}</span>
-                                <div className="item-controls">
-                                    <button className="control-btn" onClick={() => moveItem(stats, setStats, i, -1)} disabled={i === 0}><MoveUp size={16} /></button>
-                                    <button className="control-btn" onClick={() => moveItem(stats, setStats, i, 1)} disabled={i === stats.length - 1}><MoveDown size={16} /></button>
-                                    <button className="control-btn delete" onClick={() => removeStat(stat.id)}><Trash2 size={16} /></button>
-                                </div>
-                            </div>
-                            <div className="form-grid" style={{ gridTemplateColumns: '1fr 2fr', gap: '15px', marginTop: 0 }}>
-                                <div>
-                                    <span className="input-label">Значение</span>
-                                    <input value={stat.value} onChange={(e) => handleStatChange(stat.id, 'value', e.target.value)} />
-                                </div>
-                                <div>
-                                    <span className="input-label">Подпись ({activeLang})</span>
-                                    <input value={stat[getFieldName('label')] || ''} onChange={(e) => handleStatChange(stat.id, 'label', e.target.value)} />
-                                </div>
-                            </div>
+            <div style={{ marginBottom: '16px' }}>
+                <SectionHeader title="📊 Статистика альянса" sectionKey="stats" />
+                {expandedSections.stats && (
+                    <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+                            <button
+                                onClick={addNewStat}
+                                style={{
+                                    background: '#10b981',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '12px 24px',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    fontWeight: '600',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px'
+                                }}
+                            >
+                                <Plus size={18} /> Добавить показатель
+                            </button>
                         </div>
-                    ))}
-                </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                            {stats.map((stat, i) => (
+                                <div key={stat.id} style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                                        <span style={{ fontWeight: '700', color: '#334155', fontSize: '14px' }}>Показатель #{i + 1}</span>
+                                        <div style={{ display: 'flex', gap: '6px' }}>
+                                            <button onClick={() => moveItem(stats, setStats, i, -1)} disabled={i === 0} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '6px 8px', cursor: i === 0 ? 'not-allowed' : 'pointer', opacity: i === 0 ? 0.5 : 1 }}><MoveUp size={14} /></button>
+                                            <button onClick={() => moveItem(stats, setStats, i, 1)} disabled={i === stats.length - 1} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '6px 8px', cursor: i === stats.length - 1 ? 'not-allowed' : 'pointer', opacity: i === stats.length - 1 ? 0.5 : 1 }}><MoveDown size={14} /></button>
+                                            <button onClick={() => removeStat(stat.id)} style={{ background: '#fee2e2', border: '1px solid #fecaca', borderRadius: '6px', padding: '6px 8px', cursor: 'pointer', color: '#dc2626' }}><Trash2 size={14} /></button>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'grid', gap: '12px' }}>
+                                        <div>
+                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Значение</label>
+                                            <input
+                                                value={stat.value}
+                                                onChange={(e) => handleStatChange(stat.id, 'value', e.target.value)}
+                                                style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '14px' }}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Подпись ({activeLang})</label>
+                                            <input
+                                                value={stat[getFieldName('label')] || ''}
+                                                onChange={(e) => handleStatChange(stat.id, 'label', e.target.value)}
+                                                style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '14px' }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Values */}
-            <div className="edit-section">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                    <div className="section-label">
-                        <Star size={24} color="#2563eb" />
-                        Наши Ценности
-                    </div>
-                    <button onClick={addNewValue} className="btn-secondary">
-                        <Plus size={18} /> Добавить ценность
-                    </button>
-                </div>
-                <div className="form-grid">
-                    {values.map((val, i) => (
-                        <div key={val.id} className="list-item">
-                            <div className="list-item-header">
-                                <span className="item-number">Ценность #{i + 1}</span>
-                                <div className="item-controls">
-                                    <button className="control-btn" onClick={() => moveItem(values, setValues, i, -1)} disabled={i === 0}><MoveUp size={16} /></button>
-                                    <button className="control-btn" onClick={() => moveItem(values, setValues, i, 1)} disabled={i === values.length - 1}><MoveDown size={16} /></button>
-                                    <button className="control-btn delete" onClick={() => removeValue(val.id)}><Trash2 size={16} /></button>
-                                </div>
-                            </div>
-                            <div className="form-grid" style={{ gridTemplateColumns: '200px 1fr 2fr', gap: '24px', marginTop: 10 }}>
-                                <div>
-                                    <span className="input-label">Иконка</span>
-                                    <IconPicker value={val.icon || 'Zap'} onChange={(v) => handleValueChange(val.id, 'icon', v)} />
-                                </div>
-                                <div>
-                                    <span className="input-label">Заголовок ({activeLang})</span>
-                                    <input value={val[getFieldName('title')] || ''} onChange={(e) => handleValueChange(val.id, 'title', e.target.value)} />
-                                </div>
-                                <div>
-                                    <span className="input-label">Описание ({activeLang})</span>
-                                    <textarea value={val[getFieldName('description')] || ''} onChange={(e) => handleValueChange(val.id, 'description', e.target.value)} />
-                                </div>
-                            </div>
+            <div style={{ marginBottom: '16px' }}>
+                <SectionHeader title="⭐ Наши Ценности" sectionKey="values" />
+                {expandedSections.values && (
+                    <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+                            <button
+                                onClick={addNewValue}
+                                style={{
+                                    background: '#10b981',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '12px 24px',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    fontWeight: '600',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px'
+                                }}
+                            >
+                                <Plus size={18} /> Добавить ценность
+                            </button>
                         </div>
-                    ))}
-                </div>
+                        <div style={{ display: 'grid', gap: '16px' }}>
+                            {values.map((val, i) => (
+                                <div key={val.id} style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                                        <span style={{ fontWeight: '700', color: '#334155', fontSize: '14px' }}>Ценность #{i + 1}</span>
+                                        <div style={{ display: 'flex', gap: '6px' }}>
+                                            <button onClick={() => moveItem(values, setValues, i, -1)} disabled={i === 0} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '6px 8px', cursor: i === 0 ? 'not-allowed' : 'pointer', opacity: i === 0 ? 0.5 : 1 }}><MoveUp size={14} /></button>
+                                            <button onClick={() => moveItem(values, setValues, i, 1)} disabled={i === values.length - 1} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '6px 8px', cursor: i === values.length - 1 ? 'not-allowed' : 'pointer', opacity: i === values.length - 1 ? 0.5 : 1 }}><MoveDown size={14} /></button>
+                                            <button onClick={() => removeValue(val.id)} style={{ background: '#fee2e2', border: '1px solid #fecaca', borderRadius: '6px', padding: '6px 8px', cursor: 'pointer', color: '#dc2626' }}><Trash2 size={14} /></button>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 2fr', gap: '16px', alignItems: 'start' }}>
+                                        <div>
+                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Иконка</label>
+                                            <IconPicker value={val.icon || 'Zap'} onChange={(v) => handleValueChange(val.id, 'icon', v)} />
+                                        </div>
+                                        <div>
+                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Заголовок ({activeLang})</label>
+                                            <input
+                                                value={val[getFieldName('title')] || ''}
+                                                onChange={(e) => handleValueChange(val.id, 'title', e.target.value)}
+                                                style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '14px' }}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Описание ({activeLang})</label>
+                                            <textarea
+                                                value={val[getFieldName('description')] || ''}
+                                                onChange={(e) => handleValueChange(val.id, 'description', e.target.value)}
+                                                style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '6px', minHeight: '80px', fontSize: '14px', fontFamily: 'inherit' }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
 
-            <div className="save-bars">
+            {/* Save Button */}
+            <div style={{
+                position: 'fixed',
+                bottom: '0',
+                left: '280px',
+                right: '0',
+                background: 'white',
+                borderTop: '1px solid #e2e8f0',
+                padding: '20px 40px',
+                display: 'flex',
+                justifyContent: 'center',
+                zIndex: 100
+            }}>
                 <button
                     onClick={saveAll}
                     disabled={saving}
-                    className="btn-primary"
-                    style={{ minWidth: '300px' }}
+                    style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        border: 'none',
+                        padding: '16px 48px',
+                        borderRadius: '12px',
+                        cursor: saving ? 'not-allowed' : 'pointer',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)',
+                        minWidth: '300px',
+                        justifyContent: 'center'
+                    }}
                 >
-                    {saving ? <Loader className="spin" size={24} /> : <Save size={24} />}
+                    {saving ? <Loader className="spin" size={20} /> : <Save size={20} />}
                     {saving ? 'Сохранение...' : 'Сохранить все изменения'}
                 </button>
             </div>

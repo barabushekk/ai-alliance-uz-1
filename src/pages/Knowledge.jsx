@@ -1,173 +1,144 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Download, Play, Book, Calendar, Eye, ArrowRight } from 'lucide-react';
+import { FileText, Download, Play, Book, Calendar, Eye, ArrowRight, Loader } from 'lucide-react';
+import DynamicIcon from '../components/DynamicIcon';
+import { supabase } from '../lib/supabaseClient';
+import { useTranslation } from 'react-i18next';
 import './Knowledge.css';
 
-// Use placeholder images from unsplash
-const roadmapImg = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop';
-const courseImg = 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=450&fit=crop';
-const analyticsImg = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop';
-const ethicsImg = 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=450&fit=crop';
-
 const Knowledge = () => {
-    const resources = [
-        {
-            title: 'Дорожная карта ИИ в Узбекистане 2024-2030',
-            description: 'Комплексная стратегия развития искусственного интеллекта в Узбекистане с детальными этапами реализации, ключевыми показателями и планом действий на ближайшие 6 лет.',
-            type: 'PDF',
-            category: 'Стратегические документы',
-            icon: <FileText size={24} />,
-            size: '2.4 MB',
-            pages: '48 страниц',
-            date: '15 Янв 2024',
-            downloads: '1,234',
-            image: roadmapImg
-        },
-        {
-            title: 'Основы ИИ для госслужащих',
-            description: 'Интерактивный онлайн-курс, разработанный специально для государственных служащих. Включает видеолекции, практические задания и тесты для понимания основ искусственного интеллекта.',
-            type: 'Онлайн-курс',
-            category: 'Образование',
-            icon: <Play size={24} />,
-            size: '12 модулей',
-            pages: '24 часа',
-            date: '10 Дек 2024',
-            downloads: '856',
-            image: courseImg
-        },
-        {
-            title: 'Отчет: Рынок ИИ в Центральной Азии',
-            description: 'Глубокий аналитический отчет о состоянии рынка искусственного интеллекта в регионе Центральной Азии с прогнозами развития, анализом конкурентов и возможностей для инвестиций.',
-            type: 'PDF',
-            category: 'Аналитика и исследования',
-            icon: <FileText size={24} />,
-            size: '5.1 MB',
-            pages: '72 страницы',
-            date: '05 Дек 2024',
-            downloads: '2,145',
-            image: analyticsImg
-        },
-        {
-            title: 'Белая книга по этике данных',
-            description: 'Фундаментальный документ, определяющий этические принципы работы с данными и искусственным интеллектом. Включает рекомендации по защите прав граждан и ответственному использованию ИИ.',
-            type: 'PDF',
-            category: 'Этика и регулирование',
-            icon: <Book size={24} />,
-            size: '3.8 MB',
-            pages: '56 страниц',
-            date: '20 Ноя 2024',
-            downloads: '1,678',
-            image: ethicsImg
-        }
-    ];
+    const { i18n } = useTranslation();
+    const [loading, setLoading] = useState(true);
+    const [sections, setSections] = useState({
+        hero: { title: 'База Знаний', description: 'Актуальные материалы...' },
+        header: { title: 'Библиотека ресурсов', description: 'Документы, курсы...' },
+        cta: { title: 'Хотите поделиться знаниями?', description: '', cta_text: 'Предложить публикацию', cta_link: '#' }
+    });
+    const [items, setItems] = useState({
+        stats: [],
+        resources: []
+    });
 
-    const stats = [
-        { value: '25+', label: 'Публикаций' },
-        { value: '10K+', label: 'Скачиваний' },
-        { value: '8', label: 'Курсов' },
-        { value: '15', label: 'Исследований' }
-    ];
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const [
+                { data: sData },
+                { data: stData },
+                { data: rData }
+            ] = await Promise.all([
+                supabase.from('knowledge_sections').select('*'),
+                supabase.from('knowledge_stats').select('*').order('sort_order', { ascending: true }),
+                supabase.from('knowledge_items').select('*').order('sort_order', { ascending: true })
+            ]);
+
+            if (sData) {
+                const newSections = { ...sections };
+                sData.forEach(s => newSections[s.key] = s);
+                setSections(newSections);
+            }
+
+            setItems({
+                stats: stData || [],
+                resources: rData || []
+            });
+        } catch (error) {
+            console.error('Error fetching knowledge data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getLocalized = (item, field) => {
+        if (!item) return '';
+        const lang = i18n.language;
+        if (lang === 'ru') return item[field] || '';
+        return item[`${field}_${lang}`] || item[field] || '';
+    };
+
+
+
+    const getResourceIcon = (type) => {
+        const t = (type || '').toLowerCase();
+        if (t.includes('курс') || t.includes('course') || t.includes('video')) return <Play size={24} />;
+        if (t.includes('книга') || t.includes('book') || t.includes('white paper')) return <Book size={24} />;
+        return <FileText size={24} />;
+    };
 
     return (
         <div className="page-standard knowledge-page">
-            {/* Hero Section */}
             <section className="page-hero hero-knowledge">
                 <div className="container">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="page-header"
-                    >
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="page-header">
                         <h1 className="page-title">
-                            База <span className="gradient-text">Знаний</span>
+                            {getLocalized(sections.hero, 'title').split(' ').map((word, idx) => (
+                                <React.Fragment key={idx}>
+                                    {idx === 1 ? <span className="gradient-text">{word} </span> : word + ' '}
+                                </React.Fragment>
+                            ))}
                         </h1>
-                        <p className="page-desc">
-                            Актуальные материалы, исследования и образовательные ресурсы для профессионалов в области ИИ.
-                        </p>
+                        <p className="page-desc">{getLocalized(sections.hero, 'description')}</p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Stats Section */}
             <section className="knowledge-stats-section">
                 <div className="container">
                     <div className="stats-grid">
-                        {stats.map((stat, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="stat-card"
-                            >
+                        {items.stats.map((stat, i) => (
+                            <motion.div key={stat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="stat-card">
+                                <div className="stat-icon" style={{ marginBottom: '10px', color: '#2563eb' }}><DynamicIcon name={stat.icon_name} /></div>
                                 <h3 className="stat-value">{stat.value}</h3>
-                                <p className="stat-label">{stat.label}</p>
+                                <p className="stat-label">{getLocalized(stat, 'label')}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Resources Section */}
             <section className="resources-section">
                 <div className="container">
                     <div className="section-header">
-                        <h2 className="section-title">Библиотека ресурсов</h2>
-                        <p className="section-subtitle">Документы, курсы и исследования для развития компетенций в ИИ</p>
+                        <h2 className="section-title">{getLocalized(sections.header, 'title')}</h2>
+                        <p className="section-subtitle">{getLocalized(sections.header, 'description')}</p>
                     </div>
 
                     <div className="resources-list">
-                        {resources.map((resource, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.15 }}
-                                className="resource-card-featured"
-                            >
+                        {items.resources.map((resource, i) => (
+                            <motion.div key={resource.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="resource-card-featured">
                                 <div className="resource-image-wrapper">
-                                    <img src={resource.image} alt={resource.title} className="resource-image" />
+                                    <img src={resource.image_url || 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80'} alt={getLocalized(resource, 'title')} className="resource-image" />
                                     <div className="resource-type-badge">
-                                        {resource.icon}
-                                        <span>{resource.type}</span>
+                                        {getResourceIcon(getLocalized(resource, 'type'))}
+                                        <span>{getLocalized(resource, 'type')}</span>
                                     </div>
                                 </div>
 
                                 <div className="resource-content">
-                                    <div className="resource-category-tag">{resource.category}</div>
-                                    <h3 className="resource-title">{resource.title}</h3>
-                                    <p className="resource-description">{resource.description}</p>
+                                    <div className="resource-category-tag">{getLocalized(resource, 'category')}</div>
+                                    <h3 className="resource-title">{getLocalized(resource, 'title')}</h3>
+                                    <p className="resource-description">{getLocalized(resource, 'description')}</p>
 
                                     <div className="resource-meta">
-                                        <div className="meta-item">
-                                            <FileText size={16} />
-                                            <span>{resource.size}</span>
-                                        </div>
-                                        <div className="meta-item">
-                                            <Book size={16} />
-                                            <span>{resource.pages}</span>
-                                        </div>
-                                        <div className="meta-item">
-                                            <Calendar size={16} />
-                                            <span>{resource.date}</span>
-                                        </div>
-                                        <div className="meta-item">
-                                            <Download size={16} />
-                                            <span>{resource.downloads}</span>
-                                        </div>
+                                        <div className="meta-item"><FileText size={16} /><span>{resource.size}</span></div>
+                                        <div className="meta-item"><Book size={16} /><span>{getLocalized(resource, 'pages')}</span></div>
+                                        <div className="meta-item"><Calendar size={16} /><span>{resource.date}</span></div>
+                                        <div className="meta-item"><Download size={16} /><span>{resource.downloads}</span></div>
                                     </div>
 
                                     <div className="resource-actions">
-                                        <button className="primary-btn">
+                                        <a href={resource.file_url || '#'} className="primary-btn" style={{ textDecoration: 'none' }}>
                                             <Download size={18} />
-                                            Скачать
-                                        </button>
-                                        <button className="secondary-btn">
+                                            {i18n.language === 'en' ? 'Download' : (i18n.language === 'uz' ? 'Yuklab olish' : 'Скачать')}
+                                        </a>
+                                        <a href={resource.file_url || '#'} target="_blank" rel="noopener noreferrer" className="secondary-btn" style={{ textDecoration: 'none' }}>
                                             <Eye size={18} />
-                                            Просмотр
-                                        </button>
+                                            {i18n.language === 'en' ? 'View' : (i18n.language === 'uz' ? 'Ko\'rish' : 'Просмотр')}
+                                        </a>
                                     </div>
                                 </div>
                             </motion.div>
@@ -176,24 +147,16 @@ const Knowledge = () => {
                 </div>
             </section>
 
-            {/* CTA Section */}
             <section className="knowledge-cta-section">
                 <div className="container">
-                    <motion.div
-                        className="cta-card"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                    >
+                    <motion.div className="cta-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                         <Book className="cta-icon" size={48} />
-                        <h2 className="cta-title">Хотите поделиться знаниями?</h2>
-                        <p className="cta-description">
-                            Мы приглашаем экспертов и исследователей публиковать свои материалы в нашей базе знаний. Помогите сообществу расти и развиваться.
-                        </p>
-                        <button className="primary-btn">
-                            Предложить публикацию
+                        <h2 className="cta-title">{getLocalized(sections.cta, 'title')}</h2>
+                        <p className="cta-description">{getLocalized(sections.cta, 'description')}</p>
+                        <a href={sections.cta?.cta_link || '#'} className="primary-btn" style={{ textDecoration: 'none' }}>
+                            {getLocalized(sections.cta, 'cta_text')}
                             <ArrowRight size={18} />
-                        </button>
+                        </a>
                     </motion.div>
                 </div>
             </section>
@@ -202,3 +165,4 @@ const Knowledge = () => {
 };
 
 export default Knowledge;
+

@@ -1,53 +1,107 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Zap, Globe, Users, Building2, GraduationCap } from 'lucide-react';
+import { CheckCircle, Zap, Globe, Users, Building2, GraduationCap, Loader, BookOpen, Shield } from 'lucide-react';
 import WaveDecor from '../components/WaveDecor';
+import { supabase } from '../lib/supabaseClient';
+import { useTranslation } from 'react-i18next';
 import './Participants.css';
 
+// Icon mapping
+const iconMap = {
+    'CheckCircle': CheckCircle,
+    'Zap': Zap,
+    'Globe': Globe,
+    'Users': Users,
+    'Building2': Building2,
+    'GraduationCap': GraduationCap,
+    'Shield': Shield,
+    'BookOpen': BookOpen
+};
+
 const Participants = () => {
-    // Static data matching the premium style
-    const benefits = [
-        { title: 'Нетворкинг и Связи', desc: 'Эксклюзивный доступ к закрытому сообществу экспертов, руководителей ИИ-компаний и представителям государства.', icon: <Users size={32} /> },
-        { title: 'Влияние на Отрасль', desc: 'Прямое участие в рабочих группах по формированию стратегии ИИ и нормативно-правовой базы.', icon: <Globe size={32} /> },
-        { title: 'Ресурсы и Инфраструктура', desc: 'Льготный доступ к вычислительным мощностям, национальным датасетам и технологическим платформам.', icon: <Zap size={32} /> },
-        { title: 'Статус и Репутация', desc: 'Позиционирование вашей компании как ключевого игрока технологической модернизации страны.', icon: <CheckCircle size={32} /> },
-    ];
+    const { i18n } = useTranslation();
+    const [loading, setLoading] = useState(true);
+    const [sections, setSections] = useState({
+        hero: { title: 'Стать Участником', description: 'Присоединяйтесь к экосистеме лидеров...' },
+        benefits_header: { title: 'Преимущества членства', description: '' },
+        types_header: { title: 'Типы участия', description: 'Выберите подходящий формат взаимодействия с Альянсом' },
+        req_header: { title: 'Условия и требования', description: '' },
+        steps_header: { title: 'Как вступить в Альянс?', description: '' }
+    });
+    const [items, setItems] = useState({
+        benefits: [],
+        types: [],
+        requirements: [],
+        steps: []
+    });
 
-    const participationTypes = [
-        {
-            title: 'Бизнес',
-            icon: <Building2 size={32} />,
-            benefits: [
-                'Доступ к платформе тестирования ИИ-моделей',
-                'Участие в формировании отраслевых стандартов',
-                'Приоритетный подбор ИТ-кадров'
-            ]
-        },
-        {
-            title: 'Образование и Наука',
-            icon: <GraduationCap size={32} />,
-            benefits: [
-                'Гранты на исследовательские ИИ-проекты',
-                'Доступ к закрытым датасетам для обучения',
-                'Совместные лаборатории с тех-гигантами'
-            ]
-        },
-        {
-            title: 'Гос. сектор',
-            icon: <Globe size={32} />,
-            benefits: [
-                'Экспертиза проектов цифровой трансформации',
-                'Подготовка кадров для госслужбы',
-                'Разработка этических норм применения ИИ'
-            ]
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const [
+                { data: sData },
+                { data: bData },
+                { data: tData },
+                { data: rData },
+                { data: stData }
+            ] = await Promise.all([
+                supabase.from('participants_sections').select('*'),
+                supabase.from('participants_benefits').select('*').order('sort_order', { ascending: true }),
+                supabase.from('participants_types').select('*').order('sort_order', { ascending: true }),
+                supabase.from('participants_requirements').select('*').order('sort_order', { ascending: true }),
+                supabase.from('participants_steps').select('*').order('sort_order', { ascending: true })
+            ]);
+
+            if (sData) {
+                const newSections = { ...sections };
+                sData.forEach(s => newSections[s.key] = s);
+                setSections(newSections);
+            }
+
+            setItems({
+                benefits: bData || [],
+                types: tData || [],
+                requirements: rData || [],
+                steps: stData || []
+            });
+
+        } catch (error) {
+            console.error('Error fetching participants data:', error);
+        } finally {
+            setLoading(false);
         }
-    ];
+    };
 
-    const requirements = [
-        { title: 'Документация', items: ['Выписка из ЕГРПО', 'Презентация деятельности', 'Устав (копия)'] },
-        { title: 'Обязательства', items: ['Участие в рабочих группах', 'Соблюдение Кодекса этики ИИ', 'Ежегодный отчет'] },
-        { title: 'Взносы', items: ['Вступительный взнос', 'Членский взнос (ежегодно)', 'Размер зависит от типа орг-ии'] }
-    ];
+    const getLocalized = (item, field) => {
+        if (!item) return '';
+        const lang = i18n.language;
+        if (lang === 'ru') return item[field] || '';
+        return item[`${field}_${lang}`] || item[field] || '';
+    };
+
+    const renderIcon = (iconName, size = 32) => {
+        const Icon = iconMap[iconName] || CheckCircle;
+        return <Icon size={size} />;
+    };
+
+    const parseList = (listStr) => {
+        if (!listStr) return [];
+        return listStr.split('\n').filter(line => line.trim() !== '');
+    };
+
+    if (loading) {
+        return (
+            <div className="page-standard">
+                <div className="loading-container fixed-loader">
+                    <div className="loader-aesthetic"></div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="page-standard participants-page">
@@ -63,9 +117,13 @@ const Participants = () => {
                         transition={{ duration: 0.6 }}
                         className="page-header"
                     >
-                        <h1 className="page-title">Стать <span className="gradient-text">Участником</span></h1>
+                        <h1 className="page-title">
+                            {getLocalized(sections.hero, 'title').split(' ').map((word, idx) => (
+                                idx === 1 ? <span key={idx} className="gradient-text">{word} </span> : word + ' '
+                            ))}
+                        </h1>
                         <p className="page-desc">
-                            Присоединяйтесь к экосистеме лидеров, определяющих будущее искусственного интеллекта в Узбекистане.
+                            {getLocalized(sections.hero, 'description')}
                         </p>
                     </motion.div>
                 </div>
@@ -80,23 +138,23 @@ const Participants = () => {
                         viewport={{ once: true }}
                         className="section-header center mb-12"
                     >
-                        <h2 className="section-title text-center">Преимущества членства</h2>
+                        <h2 className="section-title text-center">{getLocalized(sections.benefits_header, 'title')}</h2>
                     </motion.div>
 
                     <div className="benefits-grid">
-                        {benefits.map((b, i) => (
+                        {items.benefits.map((b, i) => (
                             <motion.div
-                                key={i}
+                                key={b.id}
                                 className="benefit-card"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                             >
-                                <div className="benefit-icon-wrapper">{b.icon}</div>
+                                <div className="benefit-icon-wrapper">{renderIcon(b.icon)}</div>
                                 <div className="benefit-content">
-                                    <h3>{b.title}</h3>
-                                    <p>{b.desc}</p>
+                                    <h3>{getLocalized(b, 'title')}</h3>
+                                    <p>{getLocalized(b, 'description')}</p>
                                 </div>
                             </motion.div>
                         ))}
@@ -109,24 +167,24 @@ const Participants = () => {
                 <div className="container">
                     <div className="text-center mb-16">
                         <span className="section-tag">ФОРМАТЫ</span>
-                        <h2 className="clean-heading">Типы участия</h2>
-                        <p className="clean-text mx-auto">Выберите подходящий формат взаимодействия с Альянсом</p>
+                        <h2 className="clean-heading">{getLocalized(sections.types_header, 'title')}</h2>
+                        <p className="clean-text mx-auto">{getLocalized(sections.types_header, 'description')}</p>
                     </div>
 
                     <div className="types-grid-premium">
-                        {participationTypes.map((type, i) => (
+                        {items.types.map((type, i) => (
                             <motion.div
-                                key={i}
+                                key={type.id}
                                 className="type-card-premium"
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                             >
-                                <div className="type-icon-box">{type.icon}</div>
-                                <h3 className="type-title-premium">{type.title}</h3>
+                                <div className="type-icon-box">{renderIcon(type.icon)}</div>
+                                <h3 className="type-title-premium">{getLocalized(type, 'title')}</h3>
                                 <ul className="type-benefits-premium">
-                                    {type.benefits.map((item, idx) => (
+                                    {parseList(getLocalized(type, 'benefits_list')).map((item, idx) => (
                                         <li key={idx}>
                                             <CheckCircle size={18} className="check-icon-premium" />
                                             <span>{item}</span>
@@ -144,13 +202,13 @@ const Participants = () => {
                 <div className="container">
                     <div className="text-center mb-16">
                         <span className="section-tag">КРИТЕРИИ</span>
-                        <h2 className="clean-heading">Условия и требования</h2>
+                        <h2 className="clean-heading">{getLocalized(sections.req_header, 'title')}</h2>
                     </div>
 
                     <div className="requirements-grid-premium">
-                        {requirements.map((req, i) => (
+                        {items.requirements.map((req, i) => (
                             <motion.div
-                                key={i}
+                                key={req.id}
                                 className="req-card-premium"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -159,10 +217,10 @@ const Participants = () => {
                             >
                                 <div className="req-header">
                                     <div className="req-number">0{i + 1}</div>
-                                    <h4>{req.title}</h4>
+                                    <h4>{getLocalized(req, 'title')}</h4>
                                 </div>
                                 <ul className="req-list-premium">
-                                    {req.items.map((item, idx) => (
+                                    {parseList(getLocalized(req, 'items_list')).map((item, idx) => (
                                         <li key={idx}>{item}</li>
                                     ))}
                                 </ul>
@@ -176,45 +234,33 @@ const Participants = () => {
             <section className="how-to-join">
                 <div className="container steps-container">
                     <div className="text-center mb-16">
-                        <h2 className="section-title">Как вступить в Альянс?</h2>
+                        <h2 className="section-title">{getLocalized(sections.steps_header, 'title')}</h2>
                     </div>
 
                     <div className="steps-timeline">
                         <div className="steps-line"></div>
 
-                        <div className="step-item">
-                            <div className="step-number">1</div>
-                            <div className="step-content">
-                                <h4 className="step-title">Подача заявки</h4>
-                                <p className="step-desc">Заполните официальную форму на сайте, указав информацию о вашей организации и целях вступления.</p>
+                        {items.steps.map((step, i) => (
+                            <div key={step.id} className={`step-item ${i % 2 !== 0 ? 'even' : ''}`}>
+                                <div className="step-number">{step.step_num || i + 1}</div>
+                                <div className="step-content">
+                                    <h4 className="step-title">{getLocalized(step, 'title')}</h4>
+                                    <p className="step-desc">{getLocalized(step, 'description')}</p>
+                                </div>
                             </div>
-                        </div>
-
-                        <div className="step-item even">
-                            <div className="step-number">2</div>
-                            <div className="step-content">
-                                <h4 className="step-title">Квалификация</h4>
-                                <p className="step-desc">Экспертный совет рассматривает заявку и проводит собеседование для подтверждения соответствия критериям.</p>
-                            </div>
-                        </div>
-
-                        <div className="step-item">
-                            <div className="step-number">3</div>
-                            <div className="step-content">
-                                <h4 className="step-title">Меморандум</h4>
-                                <p className="step-desc">Подписание меморандума о присоединении и получение официального сертификата участника Альянса.</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     <div className="join-cta">
-                        <motion.button
+                        <motion.a
+                            href={sections.steps_header?.cta_link || '#'}
                             className="primary-btn"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
+                            style={{ textDecoration: 'none' }}
                         >
-                            Заполнить анкету участника
-                        </motion.button>
+                            {getLocalized(sections.steps_header, 'cta_text') || 'Заполнить анкету участника'}
+                        </motion.a>
                     </div>
                 </div>
             </section>

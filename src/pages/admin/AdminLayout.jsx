@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { LayoutDashboard, Users, FileText, Settings, LogOut, Info } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Settings, LogOut, Info, Home, Handshake, BookOpen, Newspaper, Layout } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import './Admin.css';
@@ -28,6 +28,11 @@ const AdminLayout = () => {
                         Дашборд
                     </NavLink>
 
+                    <NavLink to="/admin/home" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                        <Home size={20} />
+                        Главная
+                    </NavLink>
+
                     <NavLink to="/admin/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
                         <Info size={20} />
                         О нас
@@ -38,9 +43,29 @@ const AdminLayout = () => {
                         Участники
                     </NavLink>
 
+                    <NavLink to="/admin/partners" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                        <Handshake size={20} />
+                        Партнеры
+                    </NavLink>
+
                     <NavLink to="/admin/projects" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
                         <FileText size={20} />
                         Проекты
+                    </NavLink>
+
+                    <NavLink to="/admin/groups" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                        <Layout size={20} />
+                        Комитеты
+                    </NavLink>
+
+                    <NavLink to="/admin/knowledge" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                        <BookOpen size={20} />
+                        База знаний
+                    </NavLink>
+
+                    <NavLink to="/admin/news" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                        <Newspaper size={20} />
+                        Новости
                     </NavLink>
 
                     <NavLink to="/admin/settings" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
