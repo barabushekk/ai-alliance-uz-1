@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Globe, Handshake, Zap, Users, Building2, LayoutGrid } from 'lucide-react';
 import IconPicker from '../../components/admin/IconPicker';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
 import '../../pages/admin/Admin.css';
 
 const AdminPartners = () => {
@@ -173,19 +174,12 @@ const AdminPartners = () => {
 
     return (
         <div className="admin-page" style={{ paddingBottom: '120px' }}>
-            <div className="admin-page-header">
-                <div>
-                    <h2>Редактор "Партнеры"</h2>
-                    <p>Управление стратегическими партнерами и экосистемой.</p>
-                </div>
-                <div className="lang-selector-pills">
-                    {languages.map(l => (
-                        <button key={l.c} onClick={() => setActiveLang(l.c)} className={activeLang === l.c ? 'active' : ''}>
-                            {l.f} {l.c.toUpperCase()}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <AdminPageHeader
+                title='Редактор "Партнеры"'
+                subtitle='Управление стратегическими партнерами и экосистемой.'
+                activeLang={activeLang}
+                setActiveLang={setActiveLang}
+            />
 
             {notification && <div className={`notification ${notification.type}`}>{notification.message}</div>}
 

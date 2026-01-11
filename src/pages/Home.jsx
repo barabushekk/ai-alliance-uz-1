@@ -216,7 +216,13 @@ const Home = () => {
                                 <h3>{getLocalized(p, 'title')}</h3>
                                 <p>{getLocalized(p, 'description')}</p>
                                 <div className="proj-footer">
-                                    <span className="link-text">Подробнее</span>
+                                    {p.link ? (
+                                        <a href={p.link} target="_blank" rel="noreferrer" className="link-text" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                            Подробнее <ArrowRight size={14} />
+                                        </a>
+                                    ) : (
+                                        <span className="link-text">Подробнее</span>
+                                    )}
                                 </div>
                             </motion.div>
                         ))}

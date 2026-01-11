@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Users, TrendingUp, Sparkles, Loader } from 'lucide-react';
+import { Calendar, Users, TrendingUp, Sparkles, Loader, ArrowRight } from 'lucide-react';
 import DynamicIcon from '../components/DynamicIcon';
 import { supabase } from '../lib/supabaseClient';
 import { useTranslation } from 'react-i18next';
@@ -180,6 +180,20 @@ const Projects = () => {
                                             <span key={idx} className="project-tag">{tag.trim()}</span>
                                         ))}
                                     </div>
+
+                                    {project.link && (
+                                        <div style={{ marginTop: '20px' }}>
+                                            <a
+                                                href={project.link}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="link-u"
+                                                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: '600', color: '#2563eb', textDecoration: 'none', fontSize: '14px' }}
+                                            >
+                                                Подробнее <ArrowRight size={16} />
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                             </motion.div>
                         ))}

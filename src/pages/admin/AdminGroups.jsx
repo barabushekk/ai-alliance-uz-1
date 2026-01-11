@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Globe, Image as ImageIcon, Users, BarChart3, Sparkles, Layout } from 'lucide-react';
 import '../../pages/admin/Admin.css';
 import IconPicker from '../../components/admin/IconPicker';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
 
 const AdminGroups = () => {
     const [loading, setLoading] = useState(true);
@@ -190,28 +191,12 @@ const AdminGroups = () => {
 
     return (
         <div className="admin-page" style={{ paddingBottom: '120px' }}>
-            <div className="admin-page-header">
-                <div>
-                    <h2>Редактор Комитетов</h2>
-                    <p>Управляйте рабочими группами и их составом.</p>
-                </div>
-                <div className="flex gap-2" style={{ background: '#e2e8f0', padding: '4px', borderRadius: '12px', display: 'flex' }}>
-                    {languages.map(lang => (
-                        <button
-                            key={lang.code}
-                            onClick={() => setActiveLang(lang.code)}
-                            className={`px-4 py-2 text-sm font-bold transition-all ${activeLang === lang.code ? 'active' : ''}`}
-                            style={{
-                                background: activeLang === lang.code ? 'white' : 'transparent',
-                                color: activeLang === lang.code ? '#2563eb' : '#64748b',
-                                border: 'none', borderRadius: '8px', cursor: 'pointer'
-                            }}
-                        >
-                            {lang.code.toUpperCase()}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <AdminPageHeader
+                title='Редактор Комитетов'
+                subtitle='Управляйте рабочими группами и их составом.'
+                activeLang={activeLang}
+                setActiveLang={setActiveLang}
+            />
 
             {notification && (
                 <div className={`notification ${notification.type}`}>

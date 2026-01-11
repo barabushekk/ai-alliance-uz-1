@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Users, Globe, Zap, Target, Shield, BookOpen, Building2 } from 'lucide-react';
 import IconPicker from '../../components/admin/IconPicker';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
 import '../../pages/admin/Admin.css';
 
 const AdminParticipants = () => {
@@ -171,31 +172,12 @@ const AdminParticipants = () => {
 
     return (
         <div className="admin-page" style={{ paddingBottom: '120px' }}>
-            <div className="admin-page-header">
-                <div>
-                    <h2>Редактор "Участники"</h2>
-                    <p>Полное управление контентом страницы участников.</p>
-                </div>
-                <div className="flex gap-2" style={{ background: '#e2e8f0', padding: '4px', borderRadius: '12px', display: 'flex' }}>
-                    {languages.map(lang => (
-                        <button
-                            key={lang.code}
-                            onClick={() => setActiveLang(lang.code)}
-                            className={`px-4 py-2 text-sm font-bold transition-all ${activeLang === lang.code ? 'active' : ''}`}
-                            style={{
-                                background: activeLang === lang.code ? 'white' : 'transparent',
-                                color: activeLang === lang.code ? '#2563eb' : '#64748b',
-                                border: 'none', borderRadius: '8px', cursor: 'pointer',
-                                boxShadow: activeLang === lang.code ? '0 4px 6px rgba(0,0,0,0.05)' : 'none',
-                                display: 'flex', alignItems: 'center', gap: '8px'
-                            }}
-                        >
-                            <span style={{ fontSize: '1.2rem' }}>{lang.flag}</span>
-                            {lang.code.toUpperCase()}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <AdminPageHeader
+                title='Редактор "Участники"'
+                subtitle='Полное управление контентом страницы участников.'
+                activeLang={activeLang}
+                setActiveLang={setActiveLang}
+            />
 
             {notification && (
                 <div className={`notification ${notification.type}`}>

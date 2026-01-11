@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Globe, Image as ImageIcon, Book, BarChart3, Sparkles, FileText, Download, Eye } from 'lucide-react';
 import '../../pages/admin/Admin.css';
 import IconPicker from '../../components/admin/IconPicker';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
 
 const AdminKnowledge = () => {
     const [loading, setLoading] = useState(true);
@@ -178,19 +179,12 @@ const AdminKnowledge = () => {
 
     return (
         <div className="admin-page" style={{ paddingBottom: '120px' }}>
-            <div className="admin-page-header">
-                <div>
-                    <h2>База Знаний</h2>
-                    <p>Управляйте образовательными ресурсами и документами.</p>
-                </div>
-                <div className="flex gap-2">
-                    {languages.map(lang => (
-                        <button key={lang.code} onClick={() => setActiveLang(lang.code)} className={`px-4 py-1 rounded-lg ${activeLang === lang.code ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
-                            {lang.code.toUpperCase()}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <AdminPageHeader
+                title='База Знаний'
+                subtitle='Управляйте образовательными ресурсами и документами.'
+                activeLang={activeLang}
+                setActiveLang={setActiveLang}
+            />
 
             {notification && <div className={`notification ${notification.type}`}>{notification.message}</div>}
 

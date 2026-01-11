@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Globe, Image as ImageIcon, Tag, Clock, Calendar, BarChart3 } from 'lucide-react';
 import '../../pages/admin/Admin.css';
 import IconPicker from '../../components/admin/IconPicker';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
 
 const AdminNews = () => {
     const [loading, setLoading] = useState(true);
@@ -155,19 +156,12 @@ const AdminNews = () => {
 
     return (
         <div className="admin-page" style={{ paddingBottom: '120px' }}>
-            <div className="admin-page-header">
-                <div>
-                    <h2>Новости и События</h2>
-                    <p>Публикуйте новости и анонсы событий.</p>
-                </div>
-                <div className="flex gap-2">
-                    {['ru', 'uz', 'en'].map(lang => (
-                        <button key={lang} onClick={() => setActiveLang(lang)} className={`px-4 py-1 rounded-lg ${activeLang === lang ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
-                            {lang.toUpperCase()}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <AdminPageHeader
+                title='Новости и События'
+                subtitle='Публикуйте новости и анонсы событий.'
+                activeLang={activeLang}
+                setActiveLang={setActiveLang}
+            />
 
             {notification && <div className={`notification ${notification.type}`}>{notification.message}</div>}
 

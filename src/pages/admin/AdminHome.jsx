@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, ChevronDown, ChevronRight, Upload, Image as ImageIcon, Eye, EyeOff } from 'lucide-react';
 import IconPicker from '../../components/admin/IconPicker';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
 
 const AdminHome = () => {
     const [loading, setLoading] = useState(true);
@@ -278,7 +279,8 @@ const AdminHome = () => {
                     description_en: item.description_en,
                     icon: item.icon,
                     sort_order: item.sort_order,
-                    image_url: item.image_url
+                    image_url: item.image_url,
+                    link: item.link
                 };
                 if (prepared.id === undefined) delete prepared.id;
                 return prepared;
@@ -384,45 +386,13 @@ const AdminHome = () => {
     return (
         <div className="admin-page" style={{ paddingBottom: '120px', maxWidth: '1400px', margin: '0 auto' }}>
             {/* Header */}
-            <div style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                padding: '32px 40px',
-                borderRadius: '16px',
-                marginBottom: '32px',
-                boxShadow: '0 10px 40px rgba(102, 126, 234, 0.3)'
-            }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <h2 style={{ color: 'white', fontSize: '28px', fontWeight: '800', marginBottom: '8px' }}>Редактор Главной Страницы</h2>
-                        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '15px' }}>Управление всеми секциями и контентом главной страницы</p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.2)', padding: '6px', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
-                        {languages.map(lang => (
-                            <button
-                                key={lang.code}
-                                onClick={() => setActiveLang(lang.code)}
-                                style={{
-                                    background: activeLang === lang.code ? 'white' : 'transparent',
-                                    color: activeLang === lang.code ? '#667eea' : 'white',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    padding: '10px 20px',
-                                    cursor: 'pointer',
-                                    fontWeight: '700',
-                                    fontSize: '14px',
-                                    transition: 'all 0.2s',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px'
-                                }}
-                            >
-                                <span>{lang.flag}</span>
-                                {lang.label}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            {/* Header */}
+            <AdminPageHeader
+                title="Редактор Главной Страницы"
+                subtitle="Управление всеми секциями и контентом главной страницы"
+                activeLang={activeLang}
+                setActiveLang={setActiveLang}
+            />
 
             {notification && (
                 <div style={{
@@ -758,6 +728,15 @@ const AdminHome = () => {
                                             onChange={(e) => handleItemChange('projects', item.id, 'description', e.target.value)}
                                             style={{ padding: '10px', border: '1px solid #e2e8f0', borderRadius: '6px' }}
                                         />
+                                        <div style={{ gridColumn: '2 / -1', marginTop: '4px' }}>
+                                            <label style={{ display: 'block', marginBottom: '4px', fontSize: '11px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>Ссылка "Подробнее"</label>
+                                            <input
+                                                placeholder="https://example.com/project-details"
+                                                value={item.link || ''}
+                                                onChange={(e) => handleItemChange('projects', item.id, 'link', e.target.value)}
+                                                style={{ width: '100%', padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px' }}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             ))}

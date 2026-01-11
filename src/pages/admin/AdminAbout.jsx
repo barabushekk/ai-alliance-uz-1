@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, ChevronDown, ChevronRight } from 'lucide-react';
 import IconPicker from '../../components/admin/IconPicker';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
 
 const AdminAbout = () => {
     const [loading, setLoading] = useState(true);
@@ -212,45 +213,13 @@ const AdminAbout = () => {
     return (
         <div className="admin-page" style={{ paddingBottom: '120px', maxWidth: '1400px', margin: '0 auto' }}>
             {/* Header */}
-            <div style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                padding: '32px 40px',
-                borderRadius: '16px',
-                marginBottom: '32px',
-                boxShadow: '0 10px 40px rgba(102, 126, 234, 0.3)'
-            }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <h2 style={{ color: 'white', fontSize: '28px', fontWeight: '800', marginBottom: '8px' }}>Редактор "О нас"</h2>
-                        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '15px' }}>Управление контентом страницы "О нас"</p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.2)', padding: '6px', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
-                        {languages.map(lang => (
-                            <button
-                                key={lang.code}
-                                onClick={() => setActiveLang(lang.code)}
-                                style={{
-                                    background: activeLang === lang.code ? 'white' : 'transparent',
-                                    color: activeLang === lang.code ? '#667eea' : 'white',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    padding: '10px 20px',
-                                    cursor: 'pointer',
-                                    fontWeight: '700',
-                                    fontSize: '14px',
-                                    transition: 'all 0.2s',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px'
-                                }}
-                            >
-                                <span>{lang.flag}</span>
-                                {lang.label}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            {/* Header */}
+            <AdminPageHeader
+                title='Редактор "О нас"'
+                subtitle='Управление контентом страницы "О нас"'
+                activeLang={activeLang}
+                setActiveLang={setActiveLang}
+            />
 
             {notification && (
                 <div style={{
