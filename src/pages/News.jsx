@@ -43,7 +43,7 @@ const News = () => {
 
             setItems({
                 stats: stData || [],
-                news: nData || []
+                news: nData ? nData.filter(i => i.is_active !== false) : []
             });
         } catch (error) {
             console.error('Error fetching news data:', error);
@@ -88,28 +88,30 @@ const News = () => {
                 </div>
             </section>
 
-            <section className="news-stats-section">
-                <div className="container">
-                    <div className="stats-grid-news">
-                        {items.stats.length > 0 ? items.stats.map((stat, i) => (
-                            <motion.div key={stat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="stat-card">
-                                <div className="stat-icon" style={{ marginBottom: '10px', color: '#2563eb' }}><DynamicIcon name={stat.icon_name} /></div>
-                                <h3 className="stat-value">{stat.value}</h3>
-                                <p className="stat-label">{getLocalized(stat, 'label')}</p>
-                            </motion.div>
-                        )) : [
-                            { value: '50+', label: 'Новостей' },
-                            { value: '12', label: 'Событий в месяц' },
-                            { value: '25K+', label: 'Читателей' }
-                        ].map((stat, i) => (
-                            <div key={i} className="stat-card">
-                                <h3 className="stat-value">{stat.value}</h3>
-                                <p className="stat-label">{stat.label}</p>
-                            </div>
-                        ))}
+            {sections.stats_section?.is_active !== false && (
+                <section className="news-stats-section">
+                    <div className="container">
+                        <div className="stats-grid-news">
+                            {items.stats.length > 0 ? items.stats.map((stat, i) => (
+                                <motion.div key={stat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="stat-card">
+                                    <div className="stat-icon" style={{ marginBottom: '10px', color: '#2563eb' }}><DynamicIcon name={stat.icon_name} /></div>
+                                    <h3 className="stat-value">{stat.value}</h3>
+                                    <p className="stat-label">{getLocalized(stat, 'label')}</p>
+                                </motion.div>
+                            )) : [
+                                { value: '50+', label: 'Новостей' },
+                                { value: '12', label: 'Событий в месяц' },
+                                { value: '25K+', label: 'Читателей' }
+                            ].map((stat, i) => (
+                                <div key={i} className="stat-card">
+                                    <h3 className="stat-value">{stat.value}</h3>
+                                    <p className="stat-label">{stat.label}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             <section className="news-articles-section">
                 <div className="container">
@@ -148,29 +150,30 @@ const News = () => {
                 </div>
             </section>
 
-            <section className="news-cta-section">
-                <div className="container">
-                    <motion.div className="cta-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                        <Calendar className="cta-icon" size={48} />
-                        <h2 className="cta-title">{getLocalized(sections.newsletter, 'title') || 'Подпишитесь на рассылку'}</h2>
-                        <p className="cta-description">{getLocalized(sections.newsletter, 'description') || 'Получайте еженедельный дайджест самых важных новостей.'}</p>
-                        <div className="newsletter-form">
-                            <input
-                                type="email"
-                                placeholder={getLocalized(sections.newsletter, 'cta_placeholder') || 'Введите ваш email'}
-                                className="newsletter-input"
-                            />
-                            <button className="primary-btn">
-                                {getLocalized(sections.newsletter, 'cta_button') || 'Подписаться'}
-                                <ArrowRight size={18} />
-                            </button>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
+            {sections.newsletter?.is_active !== false && (
+                <section className="news-cta-section">
+                    <div className="container">
+                        <motion.div className="cta-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                            <Calendar className="cta-icon" size={48} />
+                            <h2 className="cta-title">{getLocalized(sections.newsletter, 'title') || 'Подпишитесь на рассылку'}</h2>
+                            <p className="cta-description">{getLocalized(sections.newsletter, 'description') || 'Получайте еженедельный дайджест самых важных новостей.'}</p>
+                            <div className="newsletter-form">
+                                <input
+                                    type="email"
+                                    placeholder={getLocalized(sections.newsletter, 'cta_placeholder') || 'Введите ваш email'}
+                                    className="newsletter-input"
+                                />
+                                <button className="primary-btn">
+                                    {getLocalized(sections.newsletter, 'cta_button') || 'Подписаться'}
+                                    <ArrowRight size={18} />
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
+            )}
         </div>
     );
 };
 
 export default News;
-

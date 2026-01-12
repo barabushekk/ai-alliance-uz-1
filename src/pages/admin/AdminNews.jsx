@@ -17,8 +17,10 @@ const AdminNews = () => {
         newsletter: {
             title: '', description: '', title_uz: '', description_uz: '', title_en: '', description_en: '',
             cta_button: '', cta_button_uz: '', cta_button_en: '',
-            cta_placeholder: '', cta_placeholder_uz: '', cta_placeholder_en: ''
-        }
+            cta_placeholder: '', cta_placeholder_uz: '', cta_placeholder_en: '',
+            is_active: true
+        },
+        stats_section: { title: 'Секция статистики', is_active: true }
     });
 
     const [stats, setStats] = useState([]);
@@ -58,6 +60,13 @@ const AdminNews = () => {
     };
 
     const handleSectionChange = (key, field, value) => {
+        if (field === 'is_active') {
+            setSections(prev => ({
+                ...prev,
+                [key]: { ...prev[key], is_active: value }
+            }));
+            return;
+        }
         const targetField = getFieldName(field);
         setSections(prev => ({
             ...prev,
@@ -106,7 +115,8 @@ const AdminNews = () => {
                 date: new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'Short', year: 'numeric' }),
                 read_time: '5 мин',
                 image_url: '',
-                sort_order: news.length + 1
+                sort_order: news.length + 1,
+                is_active: true
             };
             setNews([...news, newItem]);
         }
@@ -177,8 +187,14 @@ const AdminNews = () => {
             </div>
 
             <div className="edit-section">
-                <div className="section-label"><Calendar /> Рассылка</div>
-                <div style={{ display: 'grid', gap: '15px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <div className="section-label"><Calendar /> Рассылка</div>
+                    <label className="switch-container" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                        <input type="checkbox" checked={sections.newsletter?.is_active !== false} onChange={(e) => handleSectionChange('newsletter', 'is_active', e.target.checked)} />
+                        <span style={{ fontSize: '14px', fontWeight: '600' }}>{sections.newsletter?.is_active !== false ? 'Включена' : 'Отключена'}</span>
+                    </label>
+                </div>
+                <div style={{ display: 'grid', gap: '15px', opacity: sections.newsletter?.is_active !== false ? 1 : 0.5, pointerEvents: sections.newsletter?.is_active !== false ? 'auto' : 'none' }}>
                     <input
                         placeholder="Заголовок блока"
                         value={sections.newsletter[getFieldName('title')] || ''}
@@ -214,9 +230,15 @@ const AdminNews = () => {
             <div className="edit-section">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <div className="section-label"><BarChart3 size={20} /> Статистика</div>
-                    <button onClick={() => addNewItem('stats')} className="btn-secondary"><Plus size={16} /> Добавить</button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <label className="switch-container" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={sections.stats_section?.is_active !== false} onChange={(e) => handleSectionChange('stats_section', 'is_active', e.target.checked)} />
+                            <span style={{ fontSize: '14px', fontWeight: '600' }}>{sections.stats_section?.is_active !== false ? 'Включена' : 'Отключена'}</span>
+                        </label>
+                        <button onClick={() => addNewItem('stats')} className="btn-secondary" disabled={sections.stats_section?.is_active === false}><Plus size={16} /> Добавить</button>
+                    </div>
                 </div>
-                <div className="stats-admin-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '15px' }}>
+                <div className="stats-admin-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '15px', opacity: sections.stats_section?.is_active !== false ? 1 : 0.5, pointerEvents: sections.stats_section?.is_active !== false ? 'auto' : 'none' }}>
                     {stats.map((s, i) => (
                         <div key={s.id} className="list-item" style={{ padding: '15px' }}>
                             <div className="item-controls" style={{ float: 'right' }}>
@@ -247,7 +269,15 @@ const AdminNews = () => {
                 {news.map((item, i) => (
                     <div key={item.id} className="list-item">
                         <div className="list-item-header">
-                            <span>Новость #{i + 1}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <span>Новость #{i + 1}</span>
+                                <label className="switch-container" style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', marginLeft: '12px' }}>
+                                    <input type="checkbox" checked={item.is_active !== false} onChange={(e) => handleItemChange(news, setNews, item.id, 'is_active', e.target.checked)} />
+                                    <span style={{ fontSize: '12px', fontWeight: '700', color: item.is_active !== false ? '#10b981' : '#ef4444' }}>
+                                        {item.is_active !== false ? 'АКТИВНА' : 'СКРЫТА'}
+                                    </span>
+                                </label>
+                            </div>
                             <div className="item-controls">
                                 <button className="control-btn" onClick={() => moveItem(news, setNews, i, -1)} disabled={i === 0}><MoveUp size={16} /></button>
                                 <button className="control-btn" onClick={() => moveItem(news, setNews, i, 1)} disabled={i === news.length - 1}><MoveDown size={16} /></button>
