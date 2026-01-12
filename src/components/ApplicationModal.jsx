@@ -38,7 +38,7 @@ const ApplicationModal = ({ isOpen, onClose, type = 'membership' }) => {
             }, 3000);
         } catch (err) {
             console.error('Submission error:', err);
-            alert('Ошибка при отправке. Попробуйте позже.');
+            alert(t('modal.error_message'));
         } finally {
             setLoading(false);
         }
@@ -48,15 +48,7 @@ const ApplicationModal = ({ isOpen, onClose, type = 'membership' }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const modalTitle = type === 'membership'
-        ? 'Заявка на вступление'
-        : type === 'partner'
-            ? 'Стать партнером'
-            : type === 'committee'
-                ? 'Заявка в комитет'
-                : type === 'knowledge'
-                    ? 'Ваше предложение'
-                    : 'Анкета участника';
+    const modalTitle = t(`modal.${type}_title`, { defaultValue: t('modal.default_title') });
 
     return (
         <AnimatePresence>
@@ -85,63 +77,63 @@ const ApplicationModal = ({ isOpen, onClose, type = 'membership' }) => {
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h2>{modalTitle}</h2>
-                                    <p>Оставьте свои контактные данные, и мы свяжемся с вами в ближайшее время.</p>
+                                    <p>{t('modal.subtitle')}</p>
                                 </div>
 
                                 <form onSubmit={handleSubmit} className="modal-form">
                                     <div className="input-group">
-                                        <label><User size={16} /> ФИО</label>
+                                        <label><User size={16} /> {t('modal.full_name')}</label>
                                         <input
                                             required
                                             name="full_name"
                                             value={formData.full_name}
                                             onChange={handleChange}
-                                            placeholder="Иванов Иван Иванович"
+                                            placeholder={t('modal.full_name_placeholder')}
                                         />
                                     </div>
 
                                     <div className="input-group">
-                                        <label><Building size={16} /> Организация</label>
+                                        <label><Building size={16} /> {t('modal.organization')}</label>
                                         <input
                                             name="organization"
                                             value={formData.organization}
                                             onChange={handleChange}
-                                            placeholder="Название вашей компании"
+                                            placeholder={t('modal.organization_placeholder')}
                                         />
                                     </div>
 
                                     <div className="form-row">
                                         <div className="input-group">
-                                            <label><Mail size={16} /> Email</label>
+                                            <label><Mail size={16} /> {t('modal.email')}</label>
                                             <input
                                                 required
                                                 type="email"
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                placeholder="example@mail.com"
+                                                placeholder={t('modal.email_placeholder')}
                                             />
                                         </div>
                                         <div className="input-group">
-                                            <label><Phone size={16} /> Телефон</label>
+                                            <label><Phone size={16} /> {t('modal.phone')}</label>
                                             <input
                                                 required
                                                 type="tel"
                                                 name="phone"
                                                 value={formData.phone}
                                                 onChange={handleChange}
-                                                placeholder="+998 (__) ___-__-__"
+                                                placeholder={t('modal.phone_placeholder')}
                                             />
                                         </div>
                                     </div>
 
                                     <div className="input-group">
-                                        <label><MessageSquare size={16} /> Комментарий (необязательно)</label>
+                                        <label><MessageSquare size={16} /> {t('modal.message')}</label>
                                         <textarea
                                             name="message"
                                             value={formData.message}
                                             onChange={handleChange}
-                                            placeholder="Ваш вопрос или сообщение..."
+                                            placeholder={t('modal.message_placeholder')}
                                             rows="3"
                                         />
                                     </div>
@@ -157,7 +149,7 @@ const ApplicationModal = ({ isOpen, onClose, type = 'membership' }) => {
                                             <Loader className="spin" size={20} />
                                         ) : (
                                             <>
-                                                <span>Отправить заявку</span>
+                                                <span>{t('modal.submit')}</span>
                                                 <Send size={18} />
                                             </>
                                         )}
@@ -173,8 +165,8 @@ const ApplicationModal = ({ isOpen, onClose, type = 'membership' }) => {
                                 <div className="success-icon-box">
                                     <CheckCircle size={60} color="#10b981" />
                                 </div>
-                                <h3>Заявка отправлена!</h3>
-                                <p>Спасибо за интерес к Альянсу. Мы свяжемся с вами в ближайшее время.</p>
+                                <h3>{t('modal.success_title')}</h3>
+                                <p>{t('modal.success_message')}</p>
                             </motion.div>
                         )}
                     </motion.div>

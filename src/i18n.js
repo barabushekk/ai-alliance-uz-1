@@ -54,6 +54,28 @@ const resources = {
             "participants_page": {
                 "formats_tag": "FORMATS",
                 "criteria_tag": "CRITERIA"
+            },
+            "modal": {
+                "membership_title": "Membership Application",
+                "partner_title": "Become a Partner",
+                "committee_title": "Committee Application",
+                "knowledge_title": "Your Suggestion",
+                "default_title": "Participant Form",
+                "subtitle": "Leave your contact details, and we will contact you shortly.",
+                "full_name": "Full Name",
+                "full_name_placeholder": "John Doe",
+                "organization": "Organization",
+                "organization_placeholder": "Your Company Name",
+                "email": "Email",
+                "email_placeholder": "example@mail.com",
+                "phone": "Phone",
+                "phone_placeholder": "+998 (__) ___-__-__",
+                "message": "Comment (optional)",
+                "message_placeholder": "Your question or message...",
+                "submit": "Submit Application",
+                "success_title": "Application Sent!",
+                "success_message": "Thank you for your interest in the Alliance. We will contact you shortly.",
+                "error_message": "Error while sending. Please try again later."
             }
         }
     },
@@ -107,6 +129,28 @@ const resources = {
             "participants_page": {
                 "formats_tag": "ФОРМАТЫ",
                 "criteria_tag": "КРИТЕРИИ"
+            },
+            "modal": {
+                "membership_title": "Заявка на вступление",
+                "partner_title": "Стать партнером",
+                "committee_title": "Заявка в комитет",
+                "knowledge_title": "Ваше предложение",
+                "default_title": "Анкета участника",
+                "subtitle": "Оставьте свои контактные данные, и мы свяжемся с вами в ближайшее время.",
+                "full_name": "ФИО",
+                "full_name_placeholder": "Иванов Иван Иванович",
+                "organization": "Организация",
+                "organization_placeholder": "Название вашей компании",
+                "email": "Email",
+                "email_placeholder": "example@mail.com",
+                "phone": "Телефон",
+                "phone_placeholder": "+998 (__) ___-__-__",
+                "message": "Комментарий (необязательно)",
+                "message_placeholder": "Ваш вопрос или сообщение...",
+                "submit": "Отправить заявку",
+                "success_title": "Заявка отправлена!",
+                "success_message": "Спасибо за интерес к Альянсу. Мы свяжемся с вами в ближайшее время.",
+                "error_message": "Ошибка при отправке. Попробуйте позже."
             }
         }
     },
@@ -160,6 +204,28 @@ const resources = {
             "participants_page": {
                 "formats_tag": "FORMATLAR",
                 "criteria_tag": "MEZONLAR"
+            },
+            "modal": {
+                "membership_title": "A'zo bo'lish uchun ariza",
+                "partner_title": "Hamkor bo'lish",
+                "committee_title": "Qo'mitaga ariza",
+                "knowledge_title": "Sizning taklifingiz",
+                "default_title": "Ishtirokchi anketasi",
+                "subtitle": "Aloqa ma'lumotlaringizni qoldiring va biz tez orada siz bilan bog'lanamiz.",
+                "full_name": "F.I.O.",
+                "full_name_placeholder": "Ivanov Ivan Ivanovich",
+                "organization": "Tashkilot",
+                "organization_placeholder": "Kompaniyangiz nomi",
+                "email": "Email",
+                "email_placeholder": "example@mail.com",
+                "phone": "Telefon",
+                "phone_placeholder": "+998 (__) ___-__-__",
+                "message": "Izoh (ixtiyoriy)",
+                "message_placeholder": "Sizning savolingiz yoki xabaringiz...",
+                "submit": "Ariza yuborish",
+                "success_title": "Ariza yuborildi!",
+                "success_message": "Alyansga bo'lgan qiziqishingiz uchun rahmat. Biz tez orada siz bilan bog'lanamiz.",
+                "error_message": "Yuborishda xatolik yuz berdi. Keyinroq qayta urinib ko'ring."
             }
         }
     }
