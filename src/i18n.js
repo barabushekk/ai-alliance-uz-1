@@ -22,7 +22,6 @@ const resources = {
                 "contact": "Contact Us",
                 "contacts": "Contacts",
                 "address": "Tashkent, Uzbekistan",
-
                 "navigation": "Navigation",
                 "resources": "Resources"
             },
@@ -49,7 +48,12 @@ const resources = {
                 "projects_tag": "INITIATIVES",
                 "groups_tag": "COMMITTEES",
                 "advantages_tag": "KEY ADVANTAGES",
-                "all_projects": "All projects"
+                "all_projects": "All projects",
+                "news_title": "Recent News",
+                "news_subtitle": "Stay informed about the latest AI breakthroughs and Alliance updates",
+                "news_tag": "NEWS",
+                "all_news": "All News",
+                "no_news_yet": "News coming soon..."
             },
             "participants_page": {
                 "formats_tag": "FORMATS",
@@ -76,6 +80,14 @@ const resources = {
                 "success_title": "Application Sent!",
                 "success_message": "Thank you for your interest in the Alliance. We will contact you shortly.",
                 "error_message": "Error while sending. Please try again later."
+            },
+            "news_page": {
+                "hero_title": "News and Events",
+                "hero_desc": "Stay up to date with the most important events and news in the field of artificial intelligence in Uzbekistan.",
+                "latest_title": "Latest News",
+                "latest_desc": "Current information on the development of the AI ecosystem",
+                "read_more": "Read More",
+                "learn_more": "Learn More"
             }
         }
     },
@@ -97,7 +109,6 @@ const resources = {
                 "contact": "Контакты",
                 "contacts": "Контакты",
                 "address": "Ташкент, Узбекистан",
-
                 "navigation": "Навигация",
                 "resources": "Ресурсы"
             },
@@ -124,7 +135,12 @@ const resources = {
                 "projects_tag": "ИНИЦИАТИВЫ",
                 "groups_tag": "КОМИТЕТЫ",
                 "advantages_tag": "КЛЮЧЕВЫЕ ПРЕИМУЩЕСТВА",
-                "all_projects": "Все проекты"
+                "all_projects": "Все проекты",
+                "news_title": "Последние новости",
+                "news_subtitle": "Следите за самыми важными событиями в области ИИ и деятельности Альянса",
+                "news_tag": "НОВОСТИ",
+                "all_news": "Все новости",
+                "no_news_yet": "Новости скоро появятся..."
             },
             "participants_page": {
                 "formats_tag": "ФОРМАТЫ",
@@ -151,6 +167,14 @@ const resources = {
                 "success_title": "Заявка отправлена!",
                 "success_message": "Спасибо за интерес к Альянсу. Мы свяжемся с вами в ближайшее время.",
                 "error_message": "Ошибка при отправке. Попробуйте позже."
+            },
+            "news_page": {
+                "hero_title": "Новости и События",
+                "hero_desc": "Будьте в курсе самых важных событий и новостей в области искусственного интеллекта в Узбекистане.",
+                "latest_title": "Последние новости",
+                "latest_desc": "Актуальная информация о развитии ИИ-экосистемы",
+                "read_more": "Читать полностью",
+                "learn_more": "Подробнее"
             }
         }
     },
@@ -172,7 +196,6 @@ const resources = {
                 "contact": "Bog'lanish",
                 "contacts": "Kontaktlar",
                 "address": "Toshkent, O'zbekiston",
-
                 "navigation": "Navigatsiya",
                 "resources": "Resurslar"
             },
@@ -199,7 +222,12 @@ const resources = {
                 "projects_tag": "TASHABBUSLAR",
                 "groups_tag": "QO'MITALAR",
                 "advantages_tag": "ASOSIY AFZALLIKLAR",
-                "all_projects": "Barcha loyihalar"
+                "all_projects": "Barcha loyihalar",
+                "news_title": "So'nggi yangiliklar",
+                "news_subtitle": "AI sohasidagi eng muhim voqealar va Alyans faoliyatini kuzatib boring",
+                "news_tag": "YANGILIKLAR",
+                "all_news": "Barcha yangiliklar",
+                "no_news_yet": "Yangiliklar tez orada..."
             },
             "participants_page": {
                 "formats_tag": "FORMATLAR",
@@ -210,7 +238,6 @@ const resources = {
                 "partner_title": "Hamkor bo'lish",
                 "committee_title": "Qo'mitaga ariza",
                 "knowledge_title": "Sizning taklifingiz",
-                "default_title": "Ishtirokchi anketasi",
                 "subtitle": "Aloqa ma'lumotlaringizni qoldiring va biz tez orada siz bilan bog'lanamiz.",
                 "full_name": "F.I.O.",
                 "full_name_placeholder": "Ivanov Ivan Ivanovich",
@@ -226,6 +253,14 @@ const resources = {
                 "success_title": "Ariza yuborildi!",
                 "success_message": "Alyansga bo'lgan qiziqishingiz uchun rahmat. Biz tez orada siz bilan bog'lanamiz.",
                 "error_message": "Yuborishda xatolik yuz berdi. Keyinroq qayta urinib ko'ring."
+            },
+            "news_page": {
+                "hero_title": "Yangiliklar va tadbirlar",
+                "hero_desc": "O‘zbekistonda Sun’iy Intellekt sohasidagi eng muhim tadbirlar va yangiliklardan xabardor bo‘lib boring.",
+                "latest_title": "So'nggi yangiliklar",
+                "latest_desc": "AI ekotizimining rivojlanishi haqidagi dolzarb ma'lumotlar",
+                "read_more": "Batafsil",
+                "learn_more": "Batafsil"
             }
         }
     }

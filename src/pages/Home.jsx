@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Users, Database, Globe, Lightbulb, BookOpen, Shield, Cpu, Network, Target, Monitor, Zap } from 'lucide-react';
+import { ArrowRight, Users, Database, Globe, Lightbulb, BookOpen, Shield, Cpu, Network, Target, Monitor, Zap, Calendar } from 'lucide-react';
 import Hero from '../components/Hero';
 import WaveDecor from '../components/WaveDecor';
 import './Home.css';
@@ -55,7 +55,8 @@ const Home = () => {
         working_groups: [],
         feature_advantages: [],
         partners: [],
-        about_stats: []
+        about_stats: [],
+        news: []
     });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,11 +71,17 @@ const Home = () => {
             const [
                 { data: sectionsData },
                 { data: itemsData },
-                { data: statsData }
+                { data: statsData },
+                { data: nData }
             ] = await Promise.all([
                 supabase.from('home_sections').select('*'),
                 supabase.from('home_items').select('*').order('sort_order', { ascending: true }),
-                supabase.from('about_stats').select('*').order('sort_order', { ascending: true })
+                supabase.from('about_stats').select('*').order('sort_order', { ascending: true }),
+                supabase.from('news_items').select('*')
+                    .eq('is_active', true)
+                    .order('is_featured', { ascending: false })
+                    .order('sort_order', { ascending: true })
+                    .limit(3)
             ]);
 
             if (sectionsData) {
@@ -90,7 +97,8 @@ const Home = () => {
                 working_groups: itemsData ? itemsData.filter(i => i.section_key === 'working_groups') : [],
                 feature_advantages: itemsData ? itemsData.filter(i => i.section_key === 'feature_advantages') : [],
                 partners: itemsData ? itemsData.filter(i => i.section_key === 'partners') : [],
-                about_stats: statsData || []
+                about_stats: statsData || [],
+                news: nData || []
             });
         } catch (error) {
             console.error('Error fetching home data:', error);
@@ -280,6 +288,58 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Recent News Section */}
+            <section className="section-padding bg-secondary" style={{ borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
+                <div className="container">
+                    <div className="flex-header">
+                        <div>
+                            <div className="section-tag">{t('home_page.news_tag')}</div>
+                            <h2 className="clean-heading">{t('home_page.news_title')}</h2>
+                            <p className="clean-text">{t('home_page.news_subtitle')}</p>
+                        </div>
+                        <Link to="/news" className="link-u">{t('home_page.all_news')} <ArrowRight size={16} /></Link>
+                    </div>
+
+                    {items.news.length > 0 ? (
+                        <div className="home-news-grid">
+                            {items.news.map((item, i) => (
+                                <motion.article
+                                    key={item.id}
+                                    className="home-news-card"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <Link to={`/news/${item.slug || item.id}`} className="hnc-image-link">
+                                        <div className="hnc-image-wrapper">
+                                            <img src={item.image_url} alt={getLocalized(item, 'title')} />
+                                        </div>
+                                    </Link>
+                                    <div className="hnc-content">
+                                        <div className="hnc-meta">
+                                            <Calendar size={14} />
+                                            <span>{getLocalized(item, 'date')}</span>
+                                        </div>
+                                        <Link to={`/news/${item.slug || item.id}`} className="hnc-title-link">
+                                            <h3>{getLocalized(item, 'title')}</h3>
+                                        </Link>
+                                        <p>{getLocalized(item, 'excerpt')}</p>
+                                        <Link to={`/news/${item.slug || item.id}`} className="hnc-more">
+                                            {t('news_page.read_more')} <ArrowRight size={16} />
+                                        </Link>
+                                    </div>
+                                </motion.article>
+                            ))}
+                        </div>
+                    ) : (
+                        <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-secondary)' }}>
+                            {t('home_page.no_news_yet') || 'Новости скоро появятся...'}
+                        </div>
+                    )}
                 </div>
             </section>
 

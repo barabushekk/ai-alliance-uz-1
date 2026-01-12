@@ -8,12 +8,12 @@ import { useTranslation } from 'react-i18next';
 import './News.css';
 
 const News = () => {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [sections, setSections] = useState({
-        hero: { title: 'Новости и События', description: 'Следите за самыми важными...' },
-        header: { title: 'Последние новости', description: '' }
+        hero: { title: t('news_page.hero_title'), description: t('news_page.hero_desc') },
+        header: { title: t('news_page.latest_title'), description: t('news_page.latest_desc') }
     });
     const [items, setItems] = useState({
         stats: [],
@@ -149,7 +149,7 @@ const News = () => {
                                         <h3 className="news-title">{getLocalized(items.news[0], 'title')}</h3>
                                         <p className="news-excerpt">{getLocalized(items.news[0], 'excerpt')}</p>
                                         <Link to={`/news/${items.news[0].slug || items.news[0].id}`} className="read-more-btn" onClick={(e) => e.stopPropagation()}>
-                                            {i18n.language === 'en' ? 'Read More' : (i18n.language === 'uz' ? 'Batafsil' : 'Читать полностью')}
+                                            {t('news_page.read_more')}
                                             <ArrowRight size={18} />
                                         </Link>
                                     </div>
@@ -183,7 +183,7 @@ const News = () => {
                                         <h3 className="card-title">{getLocalized(item, 'title')}</h3>
                                         <p className="card-excerpt">{getLocalized(item, 'excerpt')}</p>
                                         <Link to={`/news/${item.slug || item.id}`} className="card-link" onClick={(e) => e.stopPropagation()}>
-                                            {i18n.language === 'en' ? 'Learn More' : (i18n.language === 'uz' ? 'Batafsil' : 'Подробнее')}
+                                            {t('news_page.learn_more')}
                                             <ArrowRight size={16} />
                                         </Link>
                                     </div>
