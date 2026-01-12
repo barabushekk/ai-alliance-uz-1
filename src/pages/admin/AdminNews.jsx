@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Globe, Image as ImageIcon, Tag, Clock, Calendar, BarChart3 } from 'lucide-react';
+import { Save, Loader, AlertCircle, CheckCircle, Plus, Trash2, MoveUp, MoveDown, Globe, Image as ImageIcon, Tag, Clock, Calendar, BarChart3, X } from 'lucide-react';
 import '../../pages/admin/Admin.css';
 import IconPicker from '../../components/admin/IconPicker';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
@@ -74,7 +74,7 @@ const AdminNews = () => {
         }));
     };
 
-    const handleFileUpload = async (file, id) => {
+    const handleFileUpload = async (file, id, type = 'main') => {
         if (!file) return;
         try {
             setSaving(true);
@@ -84,7 +84,18 @@ const AdminNews = () => {
             let { error: uploadError } = await supabase.storage.from('projects').upload(filePath, file);
             if (uploadError) throw uploadError;
             const { data: { publicUrl } } = supabase.storage.from('projects').getPublicUrl(filePath);
-            setNews(prev => prev.map(n => n.id === id ? { ...n, image_url: publicUrl } : n));
+
+            if (type === 'main') {
+                setNews(prev => prev.map(n => n.id === id ? { ...n, image_url: publicUrl } : n));
+            } else {
+                setNews(prev => prev.map(n => {
+                    if (n.id === id) {
+                        const currentGallery = Array.isArray(n.gallery) ? n.gallery : [];
+                        return { ...n, gallery: [...currentGallery, publicUrl] };
+                    }
+                    return n;
+                }));
+            }
             showNotification('success', 'Изображение загружено!');
         } catch (error) {
             console.error(error);
@@ -92,6 +103,16 @@ const AdminNews = () => {
         } finally {
             setSaving(false);
         }
+    };
+
+    const removeFromGallery = (newsId, imageUrl) => {
+        setNews(prev => prev.map(n => {
+            if (n.id === newsId) {
+                const currentGallery = Array.isArray(n.gallery) ? n.gallery : [];
+                return { ...n, gallery: currentGallery.filter(img => img !== imageUrl) };
+            }
+            return n;
+        }));
     };
 
     const handleItemChange = (list, setList, id, field, value) => {
@@ -116,7 +137,10 @@ const AdminNews = () => {
                 read_time: '5 мин',
                 image_url: '',
                 sort_order: news.length + 1,
-                is_active: true
+                is_active: true,
+                is_featured: false,
+                slug: `news-${Date.now()}`,
+                gallery: []
             };
             setNews([...news, newItem]);
         }
@@ -277,6 +301,13 @@ const AdminNews = () => {
                                         {item.is_active !== false ? 'АКТИВНА' : 'СКРЫТА'}
                                     </span>
                                 </label>
+
+                                <label className="switch-container" style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', marginLeft: '20px' }}>
+                                    <input type="checkbox" checked={item.is_featured === true} onChange={(e) => handleItemChange(news, setNews, item.id, 'is_featured', e.target.checked)} />
+                                    <span style={{ fontSize: '12px', fontWeight: '700', color: item.is_featured === true ? '#3b82f6' : '#94a3b8' }}>
+                                        {item.is_featured === true ? '★ ГЛАВНАЯ' : 'ОБЫЧНАЯ'}
+                                    </span>
+                                </label>
                             </div>
                             <div className="item-controls">
                                 <button className="control-btn" onClick={() => moveItem(news, setNews, i, -1)} disabled={i === 0}><MoveUp size={16} /></button>
@@ -304,13 +335,57 @@ const AdminNews = () => {
                                     <span className="input-label">Полный текст ({activeLang})</span>
                                     <textarea value={item[getFieldName('description')] || ''} onChange={(e) => handleItemChange(news, setNews, item.id, 'description', e.target.value)} />
                                 </div>
-                                <div>
-                                    <span className="input-label">Категория ({activeLang})</span>
+                                <div style={{ gridColumn: 'span 2' }}>
+                                    <span className="input-label">Категория</span>
                                     <input value={item[getFieldName('category')] || ''} onChange={(e) => handleItemChange(news, setNews, item.id, 'category', e.target.value)} />
                                 </div>
                                 <div>
-                                    <span className="input-label">Дата</span>
+                                    <span className="input-label">Дата (RU)</span>
                                     <input value={item.date || ''} onChange={(e) => handleItemChange(news, setNews, item.id, 'date', e.target.value)} />
+                                </div>
+                                <div>
+                                    <span className="input-label">Sana (UZ)</span>
+                                    <input value={item.date_uz || ''} onChange={(e) => handleItemChange(news, setNews, item.id, 'date_uz', e.target.value)} />
+                                </div>
+                                <div style={{ gridColumn: 'span 2' }}>
+                                    <span className="input-label">Date (EN)</span>
+                                    <input value={item.date_en || ''} onChange={(e) => handleItemChange(news, setNews, item.id, 'date_en', e.target.value)} />
+                                </div>
+                                <div style={{ gridColumn: 'span 2' }}>
+                                    <span className="input-label">URL-путь (Slug) - только латиница и дефисы</span>
+                                    <input
+                                        value={item.slug || ''}
+                                        placeholder="university-inha-first-member"
+                                        onChange={(e) => handleItemChange(news, setNews, item.id, 'slug', e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
+                                    />
+                                </div>
+
+                                {/* Gallery Section */}
+                                <div style={{ gridColumn: 'span 2', marginTop: '10px' }}>
+                                    <span className="input-label">Галерея изображений</span>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '10px', marginTop: '10px' }}>
+                                        {Array.isArray(item.gallery) && item.gallery.map((img, idx) => (
+                                            <div key={idx} style={{ position: 'relative', height: '100px' }}>
+                                                <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
+                                                <button
+                                                    onClick={() => removeFromGallery(item.id, img)}
+                                                    style={{ position: 'absolute', top: '-5px', right: '-5px', width: '24px', height: '24px', borderRadius: '50%', background: '#ef4444', color: 'white', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </div>
+                                        ))}
+                                        <div style={{ position: 'relative', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed #e2e8f0', borderRadius: '8px', cursor: 'pointer' }}>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                id={`gallery-${item.id}`}
+                                                style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }}
+                                                onChange={(e) => handleFileUpload(e.target.files[0], item.id, 'gallery')}
+                                            />
+                                            <Plus size={24} color="#94a3b8" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

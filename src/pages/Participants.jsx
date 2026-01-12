@@ -20,7 +20,7 @@ const iconMap = {
 };
 
 const Participants = () => {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [sections, setSections] = useState({
         hero: { title: 'Стать Участником', description: 'Присоединяйтесь к экосистеме лидеров...' },
@@ -169,7 +169,7 @@ const Participants = () => {
             <section className="section-padding bg-light">
                 <div className="container">
                     <div className="text-center mb-16">
-                        <span className="section-tag">ФОРМАТЫ</span>
+                        <span className="section-tag">{t('participants_page.formats_tag')}</span>
                         <h2 className="clean-heading">{getLocalized(sections.types_header, 'title')}</h2>
                         <p className="clean-text mx-auto">{getLocalized(sections.types_header, 'description')}</p>
                     </div>
@@ -204,7 +204,7 @@ const Participants = () => {
             <section className="section-padding">
                 <div className="container">
                     <div className="text-center mb-16">
-                        <span className="section-tag">КРИТЕРИИ</span>
+                        <span className="section-tag">{t('participants_page.criteria_tag')}</span>
                         <h2 className="clean-heading">{getLocalized(sections.req_header, 'title')}</h2>
                     </div>
 

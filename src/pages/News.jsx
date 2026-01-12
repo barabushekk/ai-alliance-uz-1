@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate, Link } from 'react-router-dom';
 import { Calendar, ArrowRight, Tag, Clock, Loader } from 'lucide-react';
 import DynamicIcon from '../components/DynamicIcon';
 import { supabase } from '../lib/supabaseClient';
@@ -8,6 +9,7 @@ import './News.css';
 
 const News = () => {
     const { i18n } = useTranslation();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [sections, setSections] = useState({
         hero: { title: 'Новости и События', description: 'Следите за самыми важными...' },
@@ -32,7 +34,9 @@ const News = () => {
             ] = await Promise.all([
                 supabase.from('news_sections').select('*'),
                 supabase.from('news_stats').select('*').order('sort_order', { ascending: true }),
-                supabase.from('news_items').select('*').order('sort_order', { ascending: true })
+                supabase.from('news_items').select('*')
+                    .order('is_featured', { ascending: false })
+                    .order('sort_order', { ascending: true })
             ]);
 
             if (sData) {
@@ -120,32 +124,72 @@ const News = () => {
                         <p className="section-subtitle">{getLocalized(sections.header, 'description')}</p>
                     </div>
 
-                    <div className="news-list">
-                        {items.news.map((item, i) => (
-                            <motion.article key={item.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="news-card-featured">
-                                <div className="news-image-wrapper">
-                                    <img src={item.image_url || 'https://images.unsplash.com/photo-1504711432869-5d39a110f444?auto=format&fit=crop&q=80'} alt={getLocalized(item, 'title')} className="news-image" />
-                                    <div className={`news-category-badge ${getCategoryColor(getLocalized(item, 'category'))}`}>
-                                        <Tag size={14} />
-                                        <span>{getLocalized(item, 'category')}</span>
+                    <div className="news-main-container">
+                        {items.news.length > 0 && (
+                            <div className="news-featured-wrapper">
+                                <motion.article
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="news-featured-card"
+                                    onClick={() => navigate(`/news/${items.news[0].slug || items.news[0].id}`)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div className="featured-image-side">
+                                        <img src={items.news[0].image_url || 'https://images.unsplash.com/photo-1504711432869-5d39a110f444?auto=format&fit=crop&q=80'} alt={getLocalized(items.news[0], 'title')} />
+                                        <div className={`news-category-badge ${getCategoryColor(getLocalized(items.news[0], 'category'))}`}>
+                                            <Tag size={14} />
+                                            <span>{getLocalized(items.news[0], 'category')}</span>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div className="featured-content-side">
+                                        <div className="news-meta-header">
+                                            <div className="meta-item"><Calendar size={16} /><span>{getLocalized(items.news[0], 'date')}</span></div>
+                                        </div>
+                                        <h3 className="news-title">{getLocalized(items.news[0], 'title')}</h3>
+                                        <p className="news-excerpt">{getLocalized(items.news[0], 'excerpt')}</p>
+                                        <Link to={`/news/${items.news[0].slug || items.news[0].id}`} className="read-more-btn" onClick={(e) => e.stopPropagation()}>
+                                            {i18n.language === 'en' ? 'Read More' : (i18n.language === 'uz' ? 'Batafsil' : 'Читать полностью')}
+                                            <ArrowRight size={18} />
+                                        </Link>
+                                    </div>
+                                </motion.article>
+                            </div>
+                        )}
 
-                                <div className="news-content">
-                                    <div className="news-meta-header">
-                                        <div className="meta-item"><Calendar size={16} /><span>{item.date}</span></div>
-                                        <div className="meta-item"><Clock size={16} /><span>{getLocalized(item, 'read_time')}</span></div>
+                        <div className="news-standard-grid">
+                            {items.news.slice(1).map((item, i) => (
+                                <motion.article
+                                    key={item.id}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="news-standard-card"
+                                    onClick={() => navigate(`/news/${item.slug || item.id}`)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div className="card-image-wrapper">
+                                        <img src={item.image_url || 'https://images.unsplash.com/photo-1504711432869-5d39a110f444?auto=format&fit=crop&q=80'} alt={getLocalized(item, 'title')} className="news-image" />
+                                        <div className={`news-tag ${getCategoryColor(getLocalized(item, 'category'))}`}>
+                                            {getLocalized(item, 'category')}
+                                        </div>
                                     </div>
-                                    <h3 className="news-title">{getLocalized(item, 'title')}</h3>
-                                    <p className="news-excerpt">{getLocalized(item, 'excerpt')}</p>
-                                    <p className="news-description">{getLocalized(item, 'description')}</p>
-                                    <button className="read-more-btn">
-                                        {i18n.language === 'en' ? 'Read More' : (i18n.language === 'uz' ? 'Batafsil' : 'Читать полностью')}
-                                        <ArrowRight size={18} />
-                                    </button>
-                                </div>
-                            </motion.article>
-                        ))}
+
+                                    <div className="card-content">
+                                        <div className="card-meta">
+                                            <span>{getLocalized(item, 'date')}</span>
+                                        </div>
+                                        <h3 className="card-title">{getLocalized(item, 'title')}</h3>
+                                        <p className="card-excerpt">{getLocalized(item, 'excerpt')}</p>
+                                        <Link to={`/news/${item.slug || item.id}`} className="card-link" onClick={(e) => e.stopPropagation()}>
+                                            {i18n.language === 'en' ? 'Learn More' : (i18n.language === 'uz' ? 'Batafsil' : 'Подробнее')}
+                                            <ArrowRight size={16} />
+                                        </Link>
+                                    </div>
+                                </motion.article>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

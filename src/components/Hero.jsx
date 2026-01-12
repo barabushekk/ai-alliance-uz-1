@@ -118,7 +118,7 @@ const Hero = () => {
                         >
                             <div>
                                 <div className="card-label">{getLocalized('card_label')}</div>
-                                <h3 className="card-title">
+                                <h3 className="hero-card-title">
                                     {getLocalized('card_title')}
                                 </h3>
                                 <p className="card-text">

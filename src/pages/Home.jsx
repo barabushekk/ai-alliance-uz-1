@@ -143,7 +143,7 @@ const Home = () => {
                             viewport={{ once: true }}
                             variants={fadeInUp}
                         >
-                            <div className="section-tag">О НАС</div>
+                            <div className="section-tag">{t('home_page.about_tag')}</div>
                             <h2 className="clean-heading" style={{ whiteSpace: 'pre-line' }}>
                                 {getLocalized(sections.about_preview, 'title')}
                             </h2>
@@ -182,10 +182,10 @@ const Home = () => {
                     <div className="container">
                         <div className="flex-header">
                             <div>
-                                <div className="section-tag">ИНИЦИАТИВЫ</div>
+                                <div className="section-tag">{t('home_page.projects_tag')}</div>
                                 <h2 className="clean-heading">{getLocalized(sections.projects_heading, 'title')}</h2>
                             </div>
-                            <Link to="/projects" className="link-u">Все проекты <ArrowRight size={16} /></Link>
+                            <Link to="/projects" className="link-u">{t('home_page.all_projects')} <ArrowRight size={16} /></Link>
                         </div>
 
                         <div className="projects-grid-3col">
@@ -223,7 +223,7 @@ const Home = () => {
                 <div className="container">
                     <div className="wg-layout">
                         <div className="wg-left-content">
-                            <span className="section-tag">КОМИТЕТЫ</span>
+                            <span className="section-tag">{t('home_page.groups_tag')}</span>
                             <h2>{getLocalized(sections.wg_heading, 'title')}</h2>
                             <p>
                                 {getLocalized(sections.wg_heading, 'description')}
@@ -269,7 +269,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="feature-right">
-                            <div className="section-tag" style={{ marginBottom: '24px' }}>Ключевые преимущества</div>
+                            <div className="section-tag" style={{ marginBottom: '24px' }}>{t('home_page.advantages_tag')}</div>
                             <div className="feature-list">
                                 {items.feature_advantages.map((item, i) => (
                                     <div key={item.id} className="feature-item">

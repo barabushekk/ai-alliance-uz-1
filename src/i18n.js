@@ -43,6 +43,17 @@ const resources = {
                 "system_status": "System Status",
                 "active": "Active",
                 "recent_activity": "Recent Activity"
+            },
+            "home_page": {
+                "about_tag": "ABOUT US",
+                "projects_tag": "INITIATIVES",
+                "groups_tag": "COMMITTEES",
+                "advantages_tag": "KEY ADVANTAGES",
+                "all_projects": "All projects"
+            },
+            "participants_page": {
+                "formats_tag": "FORMATS",
+                "criteria_tag": "CRITERIA"
             }
         }
     },
@@ -85,6 +96,17 @@ const resources = {
                 "system_status": "Статус системы",
                 "active": "Активен",
                 "recent_activity": "Последняя активность"
+            },
+            "home_page": {
+                "about_tag": "О НАС",
+                "projects_tag": "ИНИЦИАТИВЫ",
+                "groups_tag": "КОМИТЕТЫ",
+                "advantages_tag": "КЛЮЧЕВЫЕ ПРЕИМУЩЕСТВА",
+                "all_projects": "Все проекты"
+            },
+            "participants_page": {
+                "formats_tag": "ФОРМАТЫ",
+                "criteria_tag": "КРИТЕРИИ"
             }
         }
     },
@@ -127,6 +149,17 @@ const resources = {
                 "system_status": "Tizim holati",
                 "active": "Faol",
                 "recent_activity": "So'nggi faollik"
+            },
+            "home_page": {
+                "about_tag": "BIZ HAQIMIZDA",
+                "projects_tag": "TASHABBUSLAR",
+                "groups_tag": "QO'MITALAR",
+                "advantages_tag": "ASOSIY AFZALLIKLAR",
+                "all_projects": "Barcha loyihalar"
+            },
+            "participants_page": {
+                "formats_tag": "FORMATLAR",
+                "criteria_tag": "MEZONLAR"
             }
         }
     }

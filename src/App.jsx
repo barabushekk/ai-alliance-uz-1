@@ -10,6 +10,7 @@ import Projects from './pages/Projects';
 import Groups from './pages/Groups';
 import Knowledge from './pages/Knowledge';
 import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
 
 // Admin Imports
 import Login from './pages/admin/Login';
@@ -65,6 +66,7 @@ function App() {
           <Route path="/groups" element={<Groups />} />
           <Route path="/knowledge" element={<Knowledge />} />
           <Route path="/news" element={<News />} />
+          <Route path="/news/:slug" element={<NewsDetail />} />
         </Route>
 
         {/* Admin Routes */}
