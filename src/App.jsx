@@ -24,6 +24,7 @@ import AdminGroups from './pages/admin/AdminGroups';
 import AdminKnowledge from './pages/admin/AdminKnowledge';
 import AdminNews from './pages/admin/AdminNews';
 import AdminSubmissions from './pages/admin/AdminSubmissions';
+import AdminSettings from './pages/admin/AdminSettings';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
@@ -82,7 +83,7 @@ function App() {
             <Route path="groups" element={<AdminGroups />} />
             <Route path="knowledge" element={<AdminKnowledge />} />
             <Route path="news" element={<AdminNews />} />
-            <Route path="settings" element={<div className="p-8">Settings (Coming Soon)</div>} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
         </Route>
 

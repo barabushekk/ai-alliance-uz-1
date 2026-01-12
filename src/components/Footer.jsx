@@ -3,25 +3,40 @@ import { Instagram, Send, Linkedin, Mail, MapPin } from 'lucide-react';
 import './Footer.css';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '../lib/supabaseClient';
 import logoLight from '../assets/logo-light.png';
 
 const Footer = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const [navLinks, setNavLinks] = React.useState([]);
 
-    const navLinks = [
-        { title: t('nav.home'), path: '/' },
-        { title: t('nav.about'), path: '/about' },
-        { title: t('nav.participants'), path: '/participants' },
-        { title: t('nav.partners'), path: '/partners' },
-        { title: t('nav.projects'), path: '/projects' },
-        { title: t('nav.groups'), path: '/groups' },
-        { title: t('nav.knowledge'), path: '/knowledge' },
-        { title: t('nav.news'), path: '/news' },
-    ];
+    React.useEffect(() => {
+        fetchNavLinks();
+    }, [i18n.language]);
+
+    const fetchNavLinks = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('site_pages')
+                .select('*')
+                .eq('is_active', true)
+                .order('sort_order', { ascending: true });
+
+            if (error) throw error;
+            if (data) {
+                setNavLinks(data.map(page => ({
+                    title: t(`nav.${page.key}`),
+                    path: page.path
+                })));
+            }
+        } catch (err) {
+            console.error('Error fetching footer links:', err);
+        }
+    };
 
     // Split links into two columns for the footer
-    const leftCol = navLinks.slice(0, 4);
-    const rightCol = navLinks.slice(4);
+    const leftCol = navLinks.slice(0, Math.ceil(navLinks.length / 2));
+    const rightCol = navLinks.slice(Math.ceil(navLinks.length / 2));
 
     return (
         <footer className="footer">
