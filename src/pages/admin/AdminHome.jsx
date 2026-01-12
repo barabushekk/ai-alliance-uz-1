@@ -37,7 +37,9 @@ const AdminHome = () => {
         background_type: 'video',
         document_url: '',
         title_uz: '', description_uz: '', card_label_uz: '', card_title_uz: '', card_text_uz: '', card_link_uz: '', footer_title_uz: '', footer_desc_uz: '', footer_link_uz: '',
-        title_en: '', description_en: '', card_label_en: '', card_title_en: '', card_text_en: '', card_link_en: '', footer_title_en: '', footer_desc_en: '', footer_link_en: ''
+        title_en: '', description_en: '', card_label_en: '', card_title_en: '', card_text_en: '', card_link_en: '', footer_title_en: '', footer_desc_en: '', footer_link_en: '',
+        document_url_uz: '', document_url_en: '',
+        card_button: 'Скачать PDF', card_button_uz: '', card_button_en: ''
     });
 
     const [sections, setSections] = useState({
@@ -48,7 +50,8 @@ const AdminHome = () => {
         feature_exp: { title: 'ОПЫТ ПРИМЕНЕНИЯ', description: 'Альянс создал и активно развивает проект AI Russia...', title_uz: '', description_uz: '', title_en: '', description_en: '' },
         mission_left: { title: 'Миссия', description: 'Быть центром развития искусственного интеллекта в регионе...', title_uz: '', description_uz: '', title_en: '', description_en: '' },
         mission_right: { title: 'Альянс — открытая структура', description: 'Для развития искусственного интеллекта необходимо объединять усилия...', title_uz: '', description_uz: '', title_en: '', description_en: '' },
-        home_cta: { title: 'Стать участником', title_uz: '', title_en: '' }
+        home_cta: { title: 'Стать участником', title_uz: '', title_en: '' },
+        partners_section: { title: 'Логотипы партнёров', is_active: true }
     });
 
     const [items, setItems] = useState({
@@ -146,7 +149,8 @@ const AdminHome = () => {
                 .from(bucket)
                 .getPublicUrl(filePath);
 
-            setHero(prev => ({ ...prev, [field]: publicUrl }));
+            const targetField = field === 'document_url' ? getFieldName(field) : field;
+            setHero(prev => ({ ...prev, [targetField]: publicUrl }));
             showNotification('success', 'Файл успешно загружен!');
         } catch (error) {
             console.error('Upload error:', error);
@@ -557,19 +561,25 @@ const AdminHome = () => {
                                     style={{ gridColumn: '1 / -1', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '6px', minHeight: '60px' }}
                                 />
                                 <div style={{ gridColumn: '1 / -1' }}>
-                                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '13px' }}>Загрузить/заменить документ (PDF)</label>
+                                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '13px' }}>Загрузить/заменить документ (PDF) для текущего языка ({activeLang})</label>
                                     <input
                                         type="file"
                                         accept=".pdf"
                                         onChange={(e) => handleFileUpload(e.target.files[0], 'documents', 'document_url')}
                                         style={{ display: 'block', width: '100%', fontSize: '13px' }}
                                     />
-                                    {hero.document_url && (
+                                    {hero[getFieldName('document_url')] && (
                                         <div style={{ marginTop: '8px', fontSize: '12px' }}>
-                                            Файл: <a href={hero.document_url} target="_blank" rel="noreferrer" style={{ color: '#2563eb' }}>{hero.document_url.split('/').pop()}</a>
+                                            Файл ({activeLang}): <a href={hero[getFieldName('document_url')]} target="_blank" rel="noreferrer" style={{ color: '#2563eb' }}>{hero[getFieldName('document_url')].split('/').pop()}</a>
                                         </div>
                                     )}
                                 </div>
+                                <input
+                                    placeholder="Текст кнопки (Скачать PDF)"
+                                    value={hero[getFieldName('card_button')] || ''}
+                                    onChange={(e) => handleHeroChange('card_button', e.target.value)}
+                                    style={{ padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '6px' }}
+                                />
                                 <input
                                     placeholder="Или вставьте ссылку на сторонний ресурс"
                                     value={hero[getFieldName('card_link')] || ''}
@@ -678,12 +688,41 @@ const AdminHome = () => {
                 {expandedSections.projects && (
                     <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <input
-                                placeholder="Заголовок секции"
-                                value={sections.projects_heading[getFieldName('title')] || ''}
-                                onChange={(e) => handleSectionChange('projects_heading', 'title', e.target.value)}
-                                style={{ flex: 1, padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', marginRight: '16px' }}
-                            />
+                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <input
+                                    placeholder="Заголовок секции"
+                                    value={sections.projects_heading[getFieldName('title')] || ''}
+                                    onChange={(e) => handleSectionChange('projects_heading', 'title', e.target.value)}
+                                    style={{ flex: 1, padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+                                />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f8fafc', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Показывать:</span>
+                                    <button
+                                        onClick={() => setSections(prev => ({ ...prev, projects_heading: { ...prev.projects_heading, is_active: !prev.projects_heading.is_active } }))}
+                                        style={{
+                                            background: sections.projects_heading.is_active ? '#10b981' : '#cbd5e1',
+                                            border: 'none',
+                                            borderRadius: '20px',
+                                            width: '36px',
+                                            height: '20px',
+                                            position: 'relative',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s'
+                                        }}
+                                    >
+                                        <div style={{
+                                            width: '14px',
+                                            height: '14px',
+                                            background: 'white',
+                                            borderRadius: '50%',
+                                            position: 'absolute',
+                                            top: '3px',
+                                            left: sections.projects_heading.is_active ? '19px' : '3px',
+                                            transition: 'all 0.2s'
+                                        }} />
+                                    </button>
+                                </div>
+                            </div>
                             <button
                                 onClick={() => addNewItem('projects')}
                                 style={{
@@ -892,7 +931,36 @@ const AdminHome = () => {
                 {expandedSections.partners && (
                     <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <p style={{ fontSize: '14px', color: '#64748b' }}>Управляйте списком компаний-участников. В текущей версии отображаются текстовые названия.</p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>Управляйте списком компаний-участников.</p>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f8fafc', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Показывать блок:</span>
+                                    <button
+                                        onClick={() => setSections(prev => ({ ...prev, partners_section: { ...prev.partners_section, is_active: !prev.partners_section.is_active } }))}
+                                        style={{
+                                            background: sections.partners_section?.is_active !== false ? '#10b981' : '#cbd5e1',
+                                            border: 'none',
+                                            borderRadius: '20px',
+                                            width: '36px',
+                                            height: '20px',
+                                            position: 'relative',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s'
+                                        }}
+                                    >
+                                        <div style={{
+                                            width: '14px',
+                                            height: '14px',
+                                            background: 'white',
+                                            borderRadius: '50%',
+                                            position: 'absolute',
+                                            top: '3px',
+                                            left: sections.partners_section?.is_active !== false ? '19px' : '3px',
+                                            transition: 'all 0.2s'
+                                        }} />
+                                    </button>
+                                </div>
+                            </div>
                             <button onClick={() => addNewItem('partners')} className="btn-secondary">
                                 <Plus size={16} /> Добавить партнера
                             </button>

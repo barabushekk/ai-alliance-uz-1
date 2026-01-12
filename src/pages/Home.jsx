@@ -153,11 +153,11 @@ const Home = () => {
                             </Link>
                         </motion.div>
 
-                        {/* Static Visuals (Logic requested to be kept same, so visuals stay static or can be moved to admin later) */}
-                        <div className="about-visual-right">
-                            <div className="abstract-card-stack">
-                                {items.about_stats.length > 0 ? (
-                                    items.about_stats.slice(0, 4).map((stat, idx) => (
+                        {/* Static Visuals - Hide if empty */}
+                        {items.about_stats.length > 0 && (
+                            <div className="about-visual-right">
+                                <div className="abstract-card-stack">
+                                    {items.about_stats.slice(0, 4).map((stat, idx) => (
                                         <div key={stat.id} className={`metric-card mc-${idx + 1}`}>
                                             <div className="mc-icon">{renderIcon(stat.icon)}</div>
                                             <div className="mc-info">
@@ -165,70 +165,55 @@ const Home = () => {
                                                 <span className="mc-lbl">{getLocalized(stat, 'label')}</span>
                                             </div>
                                         </div>
-                                    ))
-                                ) : (
-                                    <>
-                                        <div className="metric-card mc-1">
-                                            <div className="mc-icon"><Cpu size={20} /></div>
-                                            <div className="mc-info">
-                                                <span className="mc-val">94%</span>
-                                                <span className="mc-lbl">Эффективность</span>
-                                            </div>
-                                        </div>
-                                        <div className="metric-card mc-2">
-                                            <div className="mc-icon"><Network size={20} /></div>
-                                            <div className="mc-info">
-                                                <span className="mc-val">15+</span>
-                                                <span className="mc-lbl">Проектов</span>
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </section>
 
             {/* Projects Grid */}
-            <section className="section-padding bg-light">
-                <div className="container">
-                    <div className="flex-header">
-                        <div>
-                            <div className="section-tag">ИНИЦИАТИВЫ</div>
-                            <h2 className="clean-heading">{getLocalized(sections.projects_heading, 'title')}</h2>
+            {sections.projects_heading?.is_active !== false && (
+                <section className="section-padding bg-light">
+                    <div className="container">
+                        <div className="flex-header">
+                            <div>
+                                <div className="section-tag">ИНИЦИАТИВЫ</div>
+                                <h2 className="clean-heading">{getLocalized(sections.projects_heading, 'title')}</h2>
+                            </div>
+                            <Link to="/projects" className="link-u">Все проекты <ArrowRight size={16} /></Link>
                         </div>
-                        <Link to="/projects" className="link-u">Все проекты <ArrowRight size={16} /></Link>
-                    </div>
 
-                    <div className="projects-grid-3col">
-                        {items.projects.map((p, i) => (
-                            <motion.div
-                                key={p.id}
-                                className="project-card"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                viewport={{ once: true }}
-                            >
-                                <span className="proj-status">Активен</span>
-                                <div className="proj-icon-box">{renderIcon(p.icon)}</div>
-                                <h3>{getLocalized(p, 'title')}</h3>
-                                <p>{getLocalized(p, 'description')}</p>
-                                <div className="proj-footer">
-                                    {p.link ? (
-                                        <a href={p.link} target="_blank" rel="noreferrer" className="link-text" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                            Подробнее <ArrowRight size={14} />
-                                        </a>
-                                    ) : (
-                                        <span className="link-text">Подробнее</span>
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
+                        <div className="projects-grid-3col">
+                            {items.projects.map((p, i) => (
+                                <motion.div
+                                    key={p.id}
+                                    className="project-card"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <span className="proj-status">Активен</span>
+                                    <div className="proj-icon-box">{renderIcon(p.icon)}</div>
+                                    <h3>{getLocalized(p, 'title')}</h3>
+                                    <p>{getLocalized(p, 'description')}</p>
+                                    <div className="proj-footer">
+                                        {p.link ? (
+                                            <a href={p.link} target="_blank" rel="noreferrer" className="link-text" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                Подробнее <ArrowRight size={14} />
+                                            </a>
+                                        ) : (
+                                            <span className="link-text">Подробнее</span>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Working Groups */}
             <section className="wg-section-light">
@@ -299,19 +284,21 @@ const Home = () => {
             <section className="section-padding">
                 <div className="container">
                     {/* Partners Card */}
-                    <div className="partners-card">
-                        <div className="partners-unified-grid">
-                            {items.partners.map((p, i) => (
-                                <div key={p.id} className="partner-logo-plain">
-                                    {p.image_url ? (
-                                        <img src={p.image_url} alt={p.title} style={{ height: '45px', width: 'auto', maxWidth: '160px', objectFit: 'contain', filter: 'grayscale(100%) brightness(0.8)', transition: 'all 0.3s ease' }} className="partner-img" />
-                                    ) : (
-                                        p.title
-                                    )}
-                                </div>
-                            ))}
+                    {sections.partners_section?.is_active !== false && (
+                        <div className="partners-card">
+                            <div className="partners-unified-grid">
+                                {items.partners.map((p, i) => (
+                                    <div key={p.id} className="partner-logo-plain">
+                                        {p.image_url ? (
+                                            <img src={p.image_url} alt={p.title} style={{ height: '45px', width: 'auto', maxWidth: '160px', objectFit: 'contain', filter: 'grayscale(100%) brightness(0.8)', transition: 'all 0.3s ease' }} className="partner-img" />
+                                        ) : (
+                                            p.title
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Mission Split */}
                     <div className="mission-split">

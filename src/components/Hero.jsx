@@ -41,7 +41,7 @@ const Hero = () => {
     };
 
     const handleAction = (manualUrl) => {
-        const targetUrl = hero.document_url || manualUrl;
+        const targetUrl = getLocalized('document_url') || manualUrl;
         if (!targetUrl) return;
 
         if (targetUrl.startsWith('http')) {
@@ -113,8 +113,8 @@ const Hero = () => {
                             className="hero-card"
                             whileHover={{ y: -5 }}
                             transition={{ duration: 0.3 }}
-                            onClick={() => (hero.document_url || hero.card_link) && handleAction(getLocalized('card_link'))}
-                            style={{ cursor: (hero.document_url || hero.card_link) ? 'pointer' : 'default' }}
+                            onClick={() => (getLocalized('document_url') || hero.card_link) && handleAction(getLocalized('card_link'))}
+                            style={{ cursor: (getLocalized('document_url') || hero.card_link) ? 'pointer' : 'default' }}
                         >
                             <div>
                                 <div className="card-label">{getLocalized('card_label')}</div>
@@ -129,7 +129,7 @@ const Hero = () => {
                                 e.stopPropagation();
                                 handleAction(getLocalized('card_link'));
                             }}>
-                                <Download size={14} /> Скачать PDF
+                                <Download size={14} /> {getLocalized('card_button') || 'Скачать PDF'}
                             </button>
                         </motion.div>
                     </motion.div>
