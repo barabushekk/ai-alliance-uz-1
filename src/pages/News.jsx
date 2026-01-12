@@ -152,12 +152,16 @@ const News = () => {
                 <div className="container">
                     <motion.div className="cta-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                         <Calendar className="cta-icon" size={48} />
-                        <h2 className="cta-title">{i18n.language === 'en' ? 'Subscribe to Newsletter' : (i18n.language === 'uz' ? 'Yangiliklarga obuna bo\'ling' : 'Подпишитесь на рассылку')}</h2>
-                        <p className="cta-description">{i18n.language === 'en' ? 'Get weekly digest of important news.' : (i18n.language === 'uz' ? 'Har hafta muhim yangiliklarni oling.' : 'Получайте еженедельный дайджест самых важных новостей.')}</p>
+                        <h2 className="cta-title">{getLocalized(sections.newsletter, 'title') || 'Подпишитесь на рассылку'}</h2>
+                        <p className="cta-description">{getLocalized(sections.newsletter, 'description') || 'Получайте еженедельный дайджест самых важных новостей.'}</p>
                         <div className="newsletter-form">
-                            <input type="email" placeholder={i18n.language === 'en' ? 'Your email' : 'Введите ваш email'} className="newsletter-input" />
+                            <input
+                                type="email"
+                                placeholder={getLocalized(sections.newsletter, 'cta_placeholder') || 'Введите ваш email'}
+                                className="newsletter-input"
+                            />
                             <button className="primary-btn">
-                                {i18n.language === 'en' ? 'Subscribe' : 'Подписаться'}
+                                {getLocalized(sections.newsletter, 'cta_button') || 'Подписаться'}
                                 <ArrowRight size={18} />
                             </button>
                         </div>

@@ -7,6 +7,7 @@ import './Home.css';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import { useTranslation } from 'react-i18next';
+import ApplicationModal from '../components/ApplicationModal';
 
 // Icon mapping
 const iconMap = {
@@ -56,6 +57,8 @@ const Home = () => {
         partners: [],
         about_stats: []
     });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -149,7 +152,7 @@ const Home = () => {
                             </p>
 
                             <Link to="/about" className="btn-clean-primary">
-                                Узнать больше
+                                {getLocalized(sections.about_preview, 'cta_text') || 'Узнать больше'}
                             </Link>
                         </motion.div>
 
@@ -313,10 +316,18 @@ const Home = () => {
                     </div>
 
                     <div style={{ textAlign: 'center', marginTop: '80px', marginBottom: '80px' }}>
-                        <Link to="/partners" className="btn-clean-outline">{getLocalized(sections.home_cta, 'title')}</Link>
+                        <button className="btn-clean-outline" onClick={() => setIsModalOpen(true)} style={{ background: 'none', border: '1px solid #4a5568', color: '#4a5568', padding: '12px 24px', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold' }}>
+                            {getLocalized(sections.home_cta, 'title')}
+                        </button>
                     </div>
                 </div>
             </section>
+
+            <ApplicationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                type="membership"
+            />
         </div>
     );
 };

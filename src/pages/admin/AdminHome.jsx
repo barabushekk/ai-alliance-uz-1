@@ -39,11 +39,12 @@ const AdminHome = () => {
         title_uz: '', description_uz: '', card_label_uz: '', card_title_uz: '', card_text_uz: '', card_link_uz: '', footer_title_uz: '', footer_desc_uz: '', footer_link_uz: '',
         title_en: '', description_en: '', card_label_en: '', card_title_en: '', card_text_en: '', card_link_en: '', footer_title_en: '', footer_desc_en: '', footer_link_en: '',
         document_url_uz: '', document_url_en: '',
-        card_button: 'Скачать PDF', card_button_uz: '', card_button_en: ''
+        card_button: 'Скачать PDF', card_button_uz: '', card_button_en: '',
+        footer_active: true
     });
 
     const [sections, setSections] = useState({
-        about_preview: { title: 'Интеллектуальный потенциал цифровой экономики', description: 'Альянс объединяет ведущие технологические компании для развития рынка ИИ в Узбекистане...', title_uz: '', description_uz: '', title_en: '', description_en: '' },
+        about_preview: { title: 'Интеллектуальный потенциал цифровой экономики', description: 'Альянс объединяет ведущие технологические компании для развития рынка ИИ в Узбекистане...', title_uz: '', description_uz: '', title_en: '', description_en: '', cta_text: '', cta_text_uz: '', cta_text_en: '' },
         projects_heading: { title: 'Ключевые проекты', description: '', title_uz: '', description_uz: '', title_en: '', description_en: '' },
         wg_heading: { title: 'Экспертиза и стандарты', description: 'Мы разрабатываем фундамент для безопасного и этичного ИИ...', title_uz: '', description_uz: '', title_en: '', description_en: '' },
         feature_main: { title: 'Роль технологий ИИ в развитии компании сегодня', description: 'Технологии ИИ существенно трансформируют деятельность компаний...', title_uz: '', description_uz: '', title_en: '', description_en: '' },
@@ -590,7 +591,36 @@ const AdminHome = () => {
                         </div>
 
                         <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '8px' }}>
-                            <h4 style={{ marginBottom: '16px', color: '#334155', fontSize: '15px', fontWeight: '700' }}>Нижняя панель</h4>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                <h4 style={{ color: '#334155', fontSize: '15px', fontWeight: '700', margin: 0 }}>Нижняя панель</h4>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'white', padding: '6px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#64748b' }}>Активна:</span>
+                                    <button
+                                        onClick={() => setHero(prev => ({ ...prev, footer_active: !prev.footer_active }))}
+                                        style={{
+                                            background: hero.footer_active ? '#10b981' : '#cbd5e1',
+                                            border: 'none',
+                                            borderRadius: '20px',
+                                            width: '36px',
+                                            height: '20px',
+                                            position: 'relative',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s'
+                                        }}
+                                    >
+                                        <div style={{
+                                            width: '14px',
+                                            height: '14px',
+                                            background: 'white',
+                                            borderRadius: '50%',
+                                            position: 'absolute',
+                                            top: '3px',
+                                            left: hero.footer_active ? '19px' : '3px',
+                                            transition: 'all 0.2s'
+                                        }} />
+                                    </button>
+                                </div>
+                            </div>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px' }}>
                                 <input
                                     placeholder="Заголовок (Исследование 2025:)"
@@ -636,6 +666,15 @@ const AdminHome = () => {
                                     value={sections.about_preview[getFieldName('description')] || ''}
                                     onChange={(e) => handleSectionChange('about_preview', 'description', e.target.value)}
                                     style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px', minHeight: '100px' }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Текст кнопки ({activeLang.toUpperCase()})</label>
+                                <input
+                                    value={sections.about_preview[getFieldName('cta_text')] || ''}
+                                    onChange={(e) => handleSectionChange('about_preview', 'cta_text', e.target.value)}
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+                                    placeholder="Узнать больше"
                                 />
                             </div>
                         </div>

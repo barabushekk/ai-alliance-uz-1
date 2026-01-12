@@ -136,25 +136,27 @@ const Hero = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="hero-footer"
-                    onClick={() => hero.footer_link && handleAction(getLocalized('footer_link'))}
-                    style={{ cursor: hero.footer_link ? 'pointer' : 'default' }}
-                >
-                    <div className="footer-content">
-                        <span className="footer-title">{getLocalized('footer_title')}</span>
-                        <span className="footer-desc">{getLocalized('footer_desc')}</span>
-                    </div>
-                    <button className="btn-arrow" onClick={(e) => {
-                        e.stopPropagation();
-                        handleAction(getLocalized('footer_link'));
-                    }}>
-                        <ArrowRight size={16} />
-                    </button>
-                </motion.div>
+                {hero.footer_active !== false && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="hero-footer"
+                        onClick={() => hero.footer_link && handleAction(getLocalized('footer_link'))}
+                        style={{ cursor: hero.footer_link ? 'pointer' : 'default' }}
+                    >
+                        <div className="footer-content">
+                            <span className="footer-title">{getLocalized('footer_title')}</span>
+                            <span className="footer-desc">{getLocalized('footer_desc')}</span>
+                        </div>
+                        <button className="btn-arrow" onClick={(e) => {
+                            e.stopPropagation();
+                            handleAction(getLocalized('footer_link'));
+                        }}>
+                            <ArrowRight size={16} />
+                        </button>
+                    </motion.div>
+                )}
             </div>
         </section>
     );

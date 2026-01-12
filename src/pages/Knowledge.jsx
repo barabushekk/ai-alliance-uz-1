@@ -4,6 +4,7 @@ import { FileText, Download, Play, Book, Calendar, Eye, ArrowRight, Loader } fro
 import DynamicIcon from '../components/DynamicIcon';
 import { supabase } from '../lib/supabaseClient';
 import { useTranslation } from 'react-i18next';
+import ApplicationModal from '../components/ApplicationModal';
 import './Knowledge.css';
 
 const Knowledge = () => {
@@ -18,6 +19,8 @@ const Knowledge = () => {
         stats: [],
         resources: []
     });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -153,13 +156,19 @@ const Knowledge = () => {
                         <Book className="cta-icon" size={48} />
                         <h2 className="cta-title">{getLocalized(sections.cta, 'title')}</h2>
                         <p className="cta-description">{getLocalized(sections.cta, 'description')}</p>
-                        <a href={sections.cta?.cta_link || '#'} className="primary-btn" style={{ textDecoration: 'none' }}>
+                        <button className="primary-btn" onClick={() => setIsModalOpen(true)} style={{ border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             {getLocalized(sections.cta, 'cta_text')}
                             <ArrowRight size={18} />
-                        </a>
+                        </button>
                     </motion.div>
                 </div>
             </section>
+
+            <ApplicationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                type="knowledge"
+            />
         </div>
     );
 };

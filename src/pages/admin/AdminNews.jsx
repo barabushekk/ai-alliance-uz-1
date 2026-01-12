@@ -13,7 +13,12 @@ const AdminNews = () => {
 
     const [sections, setSections] = useState({
         hero: { title: '', description: '', title_uz: '', description_uz: '', title_en: '', description_en: '' },
-        header: { title: '', description: '', title_uz: '', description_uz: '', title_en: '', description_en: '' }
+        header: { title: '', description: '', title_uz: '', description_uz: '', title_en: '', description_en: '' },
+        newsletter: {
+            title: '', description: '', title_uz: '', description_uz: '', title_en: '', description_en: '',
+            cta_button: '', cta_button_uz: '', cta_button_en: '',
+            cta_placeholder: '', cta_placeholder_uz: '', cta_placeholder_en: ''
+        }
     });
 
     const [stats, setStats] = useState([]);
@@ -169,6 +174,40 @@ const AdminNews = () => {
                 <div className="section-label"><Globe /> Hero</div>
                 <input placeholder="Заголовок" value={sections.hero[getFieldName('title')] || ''} onChange={(e) => handleSectionChange('hero', 'title', e.target.value)} />
                 <textarea placeholder="Описание" value={sections.hero[getFieldName('description')] || ''} onChange={(e) => handleSectionChange('hero', 'description', e.target.value)} />
+            </div>
+
+            <div className="edit-section">
+                <div className="section-label"><Calendar /> Рассылка</div>
+                <div style={{ display: 'grid', gap: '15px' }}>
+                    <input
+                        placeholder="Заголовок блока"
+                        value={sections.newsletter[getFieldName('title')] || ''}
+                        onChange={(e) => handleSectionChange('newsletter', 'title', e.target.value)}
+                    />
+                    <textarea
+                        placeholder="Описание блока"
+                        value={sections.newsletter[getFieldName('description')] || ''}
+                        onChange={(e) => handleSectionChange('newsletter', 'description', e.target.value)}
+                    />
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                        <div>
+                            <span className="input-label">Текст на кнопке ({activeLang})</span>
+                            <input
+                                placeholder="Подписаться"
+                                value={sections.newsletter[getFieldName('cta_button')] || ''}
+                                onChange={(e) => handleSectionChange('newsletter', 'cta_button', e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <span className="input-label">Placeholder инпута ({activeLang})</span>
+                            <input
+                                placeholder="Введите ваш email"
+                                value={sections.newsletter[getFieldName('cta_placeholder')] || ''}
+                                onChange={(e) => handleSectionChange('newsletter', 'cta_placeholder', e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Stats */}

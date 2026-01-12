@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { LayoutDashboard, Users, FileText, Settings, LogOut, Info, Home, Handshake, BookOpen, Newspaper, Layout } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Settings, LogOut, Info, Home, Handshake, BookOpen, Newspaper, Layout, Inbox } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import './Admin.css';
@@ -26,6 +26,11 @@ const AdminLayout = () => {
                     <NavLink to="/admin/dashboard" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
                         <LayoutDashboard size={20} />
                         Дашборд
+                    </NavLink>
+
+                    <NavLink to="/admin/submissions" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                        <Inbox size={20} />
+                        Заявки
                     </NavLink>
 
                     <NavLink to="/admin/home" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>

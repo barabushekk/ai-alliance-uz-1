@@ -4,6 +4,7 @@ import { CheckCircle, Zap, Globe, Users, Building2, GraduationCap, Loader, BookO
 import WaveDecor from '../components/WaveDecor';
 import { supabase } from '../lib/supabaseClient';
 import { useTranslation } from 'react-i18next';
+import ApplicationModal from '../components/ApplicationModal';
 import './Participants.css';
 
 // Icon mapping
@@ -34,6 +35,8 @@ const Participants = () => {
         requirements: [],
         steps: []
     });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -252,18 +255,23 @@ const Participants = () => {
                     </div>
 
                     <div className="join-cta">
-                        <motion.a
-                            href={sections.steps_header?.cta_link || '#'}
+                        <motion.button
                             className="primary-btn"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            style={{ textDecoration: 'none' }}
+                            onClick={() => setIsModalOpen(true)}
                         >
                             {getLocalized(sections.steps_header, 'cta_text') || 'Заполнить анкету участника'}
-                        </motion.a>
+                        </motion.button>
                     </div>
                 </div>
             </section>
+
+            <ApplicationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                type="membership"
+            />
         </div>
     );
 };

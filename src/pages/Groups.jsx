@@ -4,6 +4,7 @@ import { Loader, Users, Calendar } from 'lucide-react';
 import DynamicIcon from '../components/DynamicIcon';
 import { supabase } from '../lib/supabaseClient';
 import { useTranslation } from 'react-i18next';
+import ApplicationModal from '../components/ApplicationModal';
 import './Groups.css';
 
 const Groups = () => {
@@ -18,6 +19,8 @@ const Groups = () => {
         stats: [],
         groups: []
     });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -144,12 +147,23 @@ const Groups = () => {
                         <Users className="cta-icon" size={48} />
                         <h2 className="cta-title">{getLocalized(sections.cta, 'title')}</h2>
                         <p className="cta-description">{getLocalized(sections.cta, 'description')}</p>
-                        <motion.a href={sections.cta?.cta_link || '#'} className="primary-btn" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ textDecoration: 'none' }}>
+                        <motion.button
+                            className="primary-btn"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setIsModalOpen(true)}
+                        >
                             {getLocalized(sections.cta, 'cta_text') || 'Подать заявку'}
-                        </motion.a>
+                        </motion.button>
                     </motion.div>
                 </div>
             </section>
+
+            <ApplicationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                type="committee"
+            />
         </div>
     );
 };

@@ -23,6 +23,7 @@ import AdminProjects from './pages/admin/AdminProjects';
 import AdminGroups from './pages/admin/AdminGroups';
 import AdminKnowledge from './pages/admin/AdminKnowledge';
 import AdminNews from './pages/admin/AdminNews';
+import AdminSubmissions from './pages/admin/AdminSubmissions';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
@@ -72,6 +73,7 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="submissions" element={<AdminSubmissions />} />
             <Route path="home" element={<AdminHome />} />
             <Route path="about" element={<AdminAbout />} />
             <Route path="participants" element={<AdminParticipants />} />

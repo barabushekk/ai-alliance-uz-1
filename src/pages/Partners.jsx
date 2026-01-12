@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Building2, GraduationCap, Network, Handshake, Users, Zap, Loader } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import { useTranslation } from 'react-i18next';
+import ApplicationModal from '../components/ApplicationModal';
 import './Partners.css';
 
 const iconMap = {
@@ -30,6 +31,8 @@ const Partners = () => {
         categories: [],
         benefits: []
     });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => { fetchData(); }, []);
 
@@ -169,10 +172,16 @@ const Partners = () => {
                     <motion.div className="cta-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                         <h2 className="cta-title">{getLocalized(sections.cta, 'title')}</h2>
                         <p className="cta-description">{getLocalized(sections.cta, 'description')}</p>
-                        <button className="primary-btn">Подать заявку на вступление</button>
+                        <button className="primary-btn" onClick={() => setIsModalOpen(true)}>Подать заявку на вступление</button>
                     </motion.div>
                 </div>
             </section>
+
+            <ApplicationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                type="partner"
+            />
         </div>
     );
 };
