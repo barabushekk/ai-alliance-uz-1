@@ -49,9 +49,9 @@ const DemoBanner = () => {
     if (loading || !isVisible) return null;
 
     const messages = {
-        en: "Technical Demo Version • Content and features are subject to change",
-        ru: "Техническая демо-версия • Контент и функции могут измениться",
-        uz: "Texnik demo versiya • Tarkib va funksiyalar o'zgarishi mumkin"
+        en: "The site is running in test mode",
+        ru: "Сайт запущен в тестовом режиме",
+        uz: "Sayt test rejimida ishga tushirildi"
     };
 
     const currentMessage = messages[i18n.language] || messages.ru;
