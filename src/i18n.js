@@ -271,7 +271,13 @@ i18n
     .use(initReactI18next)
     .init({
         resources,
-        fallbackLng: 'ru', // Default to Russian as per context
+        fallbackLng: 'ru',
+        supportedLngs: ['ru', 'uz', 'en'],
+        detection: {
+            order: ['localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
+            lookupLocalStorage: 'i18nextLng',
+            caches: ['localStorage'],
+        },
         interpolation: {
             escapeValue: false
         }

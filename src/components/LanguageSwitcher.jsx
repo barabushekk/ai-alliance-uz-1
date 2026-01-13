@@ -14,7 +14,11 @@ const LanguageSwitcher = ({ isDark = false }) => {
         { code: 'en', label: 'EN' }
     ];
 
-    const currentLang = languages.find(l => l.code === i18n.language) || languages[0];
+    const currentLang = languages.find(l =>
+        i18n.language === l.code ||
+        i18n.language?.startsWith(l.code + '-') ||
+        i18n.resolvedLanguage === l.code
+    ) || languages[0];
 
     // Close on click outside
     useEffect(() => {
