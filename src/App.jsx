@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Outlet, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import DemoBanner from './components/DemoBanner';
 import Home from './pages/Home';
 import About from './pages/About';
 import Participants from './pages/Participants';
@@ -42,6 +43,7 @@ const ScrollToTop = () => {
 // Layout for public pages (Navbar + Footer)
 const PublicLayout = () => (
   <div className="app">
+    <DemoBanner />
     <div className="glow-mesh"></div>
     <Navbar />
     <main>

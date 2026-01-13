@@ -10,6 +10,7 @@ const AdminSettings = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [pages, setPages] = useState([]);
+    const [bannerActive, setBannerActive] = useState(true);
     const [notification, setNotification] = useState(null);
 
     useEffect(() => {
@@ -24,6 +25,16 @@ const AdminSettings = () => {
             .order('sort_order', { ascending: true });
 
         if (!error) setPages(data);
+
+        // Fetch banner status
+        const { data: bData } = await supabase
+            .from('home_sections')
+            .select('is_active')
+            .eq('key', 'demo_banner')
+            .single();
+
+        if (bData) setBannerActive(bData.is_active);
+
         setLoading(false);
     };
 
@@ -36,6 +47,19 @@ const AdminSettings = () => {
 
         if (!error) {
             setPages(pages.map(p => p.id === id ? { ...p, is_active: newStatus } : p));
+        }
+    };
+
+    const toggleBanner = async () => {
+        const newStatus = !bannerActive;
+        const { error } = await supabase
+            .from('home_sections')
+            .update({ is_active: newStatus })
+            .eq('key', 'demo_banner');
+
+        if (!error) {
+            setBannerActive(newStatus);
+            showNotification('success', `Индикатор демо-версии ${newStatus ? 'включен' : 'выключен'}`);
         }
     };
 
@@ -130,48 +154,84 @@ const AdminSettings = () => {
                     </div>
                 </div>
 
-                {/* Contact Info (Placeholder for now) */}
-                <div className="edit-section" style={{ background: 'white', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0' }}>
-                    <h3 style={{ fontSize: '20px', fontWeight: '800', color: '#0f172a', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <Share2 size={24} color="#6366f1" /> Контакты Альянса
-                    </h3>
-                    <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '32px' }}>
-                        Контактная информация, отображаемая в футере и на странице контактов.
-                    </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                    {/* UI Settings */}
+                    <div className="edit-section" style={{ background: 'white', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0' }}>
+                        <h3 style={{ fontSize: '20px', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                            <Settings size={24} color="#6366f1" /> Интерфейс
+                        </h3>
+                        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '24px' }}>
+                            Управление визуальными элементами сайта.
+                        </p>
 
-                    <div style={{ display: 'grid', gap: '20px' }}>
-                        <div>
-                            <label style={{ fontSize: '13px', fontWeight: '700', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                                <Mail size={16} /> Email
-                            </label>
-                            <input
-                                defaultValue="info@ai-alliance.uz"
-                                style={{ width: '100%', padding: '12px 16px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px' }}
-                            />
-                        </div>
-                        <div>
-                            <label style={{ fontSize: '13px', fontWeight: '700', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                                <Phone size={16} /> Телефон
-                            </label>
-                            <input
-                                defaultValue="+998 (__) ___-__-__"
-                                style={{ width: '100%', padding: '12px 16px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px' }}
-                            />
-                        </div>
-                        <div>
-                            <label style={{ fontSize: '13px', fontWeight: '700', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                                <MapPin size={16} /> Адрес (RU)
-                            </label>
-                            <input
-                                defaultValue="Ташкент, Узбекистан"
-                                style={{ width: '100%', padding: '12px 16px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px' }}
-                            />
+                        <div style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            padding: '16px 20px', background: '#f8fafc', borderRadius: '16px',
+                            border: '1px solid #e2e8f0'
+                        }}>
+                            <div>
+                                <div style={{ fontWeight: '700', color: '#1e293b' }}>Индикатор демо-версии</div>
+                                <div style={{ fontSize: '12px', color: '#64748b' }}>Полоса в верхней части сайта</div>
+                            </div>
+                            <button
+                                onClick={toggleBanner}
+                                style={{
+                                    background: bannerActive ? '#dcfce7' : '#fee2e2',
+                                    color: bannerActive ? '#15803d' : '#ef4444',
+                                    border: 'none', padding: '8px 16px', borderRadius: '10px',
+                                    fontSize: '13px', fontWeight: '700', cursor: 'pointer',
+                                    display: 'flex', alignItems: 'center', gap: '8px', minWidth: '120px', justifyContent: 'center'
+                                }}
+                            >
+                                {bannerActive ? <Eye size={16} /> : <EyeOff size={16} />}
+                                {bannerActive ? 'Включен' : 'Выключен'}
+                            </button>
                         </div>
                     </div>
 
-                    <button className="btn-primary" style={{ marginTop: '32px', width: '100%', padding: '16px' }}>
-                        Сохранить контакты
-                    </button>
+                    {/* Contact Info (Placeholder for now) */}
+                    <div className="edit-section" style={{ background: 'white', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0' }}>
+                        <h3 style={{ fontSize: '20px', fontWeight: '800', color: '#0f172a', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <Share2 size={24} color="#6366f1" /> Контакты Альянса
+                        </h3>
+                        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '32px' }}>
+                            Контактная информация, отображаемая в футере и на странице контактов.
+                        </p>
+
+                        <div style={{ display: 'grid', gap: '20px' }}>
+                            <div>
+                                <label style={{ fontSize: '13px', fontWeight: '700', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                    <Mail size={16} /> Email
+                                </label>
+                                <input
+                                    defaultValue="info@ai-alliance.uz"
+                                    style={{ width: '100%', padding: '12px 16px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px' }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '13px', fontWeight: '700', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                    <Phone size={16} /> Телефон
+                                </label>
+                                <input
+                                    defaultValue="+998 (__) ___-__-__"
+                                    style={{ width: '100%', padding: '12px 16px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px' }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '13px', fontWeight: '700', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                    <MapPin size={16} /> Адрес (RU)
+                                </label>
+                                <input
+                                    defaultValue="Ташкент, Узбекистан"
+                                    style={{ width: '100%', padding: '12px 16px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px' }}
+                                />
+                            </div>
+                        </div>
+
+                        <button className="btn-primary" style={{ marginTop: '32px', width: '100%', padding: '16px' }}>
+                            Сохранить контакты
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

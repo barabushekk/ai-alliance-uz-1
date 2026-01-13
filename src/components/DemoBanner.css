@@ -1,0 +1,77 @@
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+:root {
+    --banner-height: 32px;
+}
+
+.demo-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #0f172a, #1e293b, #0f172a);
+    background-size: 200% auto;
+    animation: gradientMove 6s linear infinite;
+    height: var(--banner-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.demo-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+}
+
+.demo-icon {
+    color: #349CD6;
+}
+
+.demo-banner-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(52, 156, 214, 0.1) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --banner-height: 44px;
+    }
+
+    .demo-banner {
+        padding: 0 12px;
+    }
+
+    .demo-banner-content {
+        font-size: 9px;
+        line-height: 1.2;
+        text-align: center;
+    }
+}
