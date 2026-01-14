@@ -892,6 +892,40 @@ const AdminHome = () => {
                 <SectionHeader title="✨ Преимущества и Опыт" sectionKey="features" />
                 {expandedSections.features && (
                     <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f8fafc', padding: '12px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '24px' }}>
+                            <span style={{ fontSize: '14px', fontWeight: '700', color: '#1e293b' }}>Показывать этот блок на сайте:</span>
+                            <button
+                                onClick={() => setSections(prev => ({
+                                    ...prev,
+                                    feature_main: { ...prev.feature_main, is_active: !prev.feature_main?.is_active }
+                                }))}
+                                style={{
+                                    background: sections.feature_main?.is_active !== false ? '#10b981' : '#cbd5e1',
+                                    border: 'none',
+                                    borderRadius: '20px',
+                                    width: '36px',
+                                    height: '20px',
+                                    position: 'relative',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                <div style={{
+                                    width: '14px',
+                                    height: '14px',
+                                    background: 'white',
+                                    borderRadius: '50%',
+                                    position: 'absolute',
+                                    top: '3px',
+                                    left: sections.feature_main?.is_active !== false ? '19px' : '3px',
+                                    transition: 'all 0.2s'
+                                }} />
+                            </button>
+                            <span style={{ fontSize: '13px', color: sections.feature_main?.is_active !== false ? '#10b981' : '#64748b' }}>
+                                {sections.feature_main?.is_active !== false ? 'Включен' : 'Выключен'}
+                            </span>
+                        </div>
+
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
                             <div style={{ background: '#f0f9ff', padding: '20px', borderRadius: '12px' }}>
                                 <h4 style={{ marginBottom: '16px', color: '#0369a1' }}>Роль технологий ИИ</h4>

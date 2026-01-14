@@ -255,41 +255,43 @@ const Home = () => {
             </section>
 
             {/* Feature Section */}
-            <section className="container">
-                <div className="section-blue">
-                    <svg className="wave-deco" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="none" stroke="#3b82f6" strokeWidth="2" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,165.3C672,160,768,96,864,96C960,96,1056,160,1152,192C1248,224,1344,224,1392,224L1440,224" opacity="0.3"></path>
-                    </svg>
+            {sections.feature_main?.is_active !== false && (
+                <section className="container">
+                    <div className="section-blue">
+                        <svg className="wave-deco" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" stroke="#3b82f6" strokeWidth="2" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,165.3C672,160,768,96,864,96C960,96,1056,160,1152,192C1248,224,1344,224,1392,224L1440,224" opacity="0.3"></path>
+                        </svg>
 
-                    <div className="feature-layout">
-                        <div className="feature-left">
-                            <h2 style={{ whiteSpace: 'pre-line' }}>
-                                {getLocalized(sections.feature_main, 'title')}
-                            </h2>
-                            <p>
-                                {getLocalized(sections.feature_main, 'description')}
-                            </p>
-                            <div style={{ marginTop: '40px' }}>
-                                <div className="section-tag">{getLocalized(sections.feature_exp, 'title')}</div>
-                                <p style={{ fontSize: '14px', maxWidth: '400px' }}>
-                                    {getLocalized(sections.feature_exp, 'description')}
+                        <div className="feature-layout">
+                            <div className="feature-left">
+                                <h2 style={{ whiteSpace: 'pre-line' }}>
+                                    {getLocalized(sections.feature_main, 'title')}
+                                </h2>
+                                <p>
+                                    {getLocalized(sections.feature_main, 'description')}
                                 </p>
+                                <div style={{ marginTop: '40px' }}>
+                                    <div className="section-tag">{getLocalized(sections.feature_exp, 'title')}</div>
+                                    <p style={{ fontSize: '14px', maxWidth: '400px' }}>
+                                        {getLocalized(sections.feature_exp, 'description')}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="feature-right">
-                            <div className="section-tag" style={{ marginBottom: '24px' }}>{t('home_page.advantages_tag')}</div>
-                            <div className="feature-list">
-                                {items.feature_advantages.map((item, i) => (
-                                    <div key={item.id} className="feature-item">
-                                        <span className="feature-dash">—</span>
-                                        <span>{getLocalized(item, 'title')}</span>
-                                    </div>
-                                ))}
+                            <div className="feature-right">
+                                <div className="section-tag" style={{ marginBottom: '24px' }}>{t('home_page.advantages_tag')}</div>
+                                <div className="feature-list">
+                                    {items.feature_advantages.map((item, i) => (
+                                        <div key={item.id} className="feature-item">
+                                            <span className="feature-dash">—</span>
+                                            <span>{getLocalized(item, 'title')}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Recent News Section */}
             <section className="section-padding bg-secondary" style={{ borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
