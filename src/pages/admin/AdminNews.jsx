@@ -122,10 +122,12 @@ const AdminNews = () => {
     };
 
     const addNewItem = (type) => {
+        console.log('addNewItem called with type:', type);
         let newItem = { id: `temp-${Date.now()}`, sort_order: 0 };
+
         if (type === 'stats') {
-            newItem = { ...newItem, value: '0', label: 'Показатель', sort_order: stats.length + 1 };
-            setStats([...stats, newItem]);
+            newItem = { ...newItem, value: '0', label: 'Показатель', sort_order: (stats?.length || 0) + 1 };
+            setStats(prev => [...(prev || []), newItem]);
         } else if (type === 'news') {
             newItem = {
                 ...newItem,
@@ -133,16 +135,21 @@ const AdminNews = () => {
                 excerpt: '',
                 description: '',
                 category: 'Событие',
-                date: new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'Short', year: 'numeric' }),
+                date: new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'short', year: 'numeric' }),
                 read_time: '5 мин',
                 image_url: '',
-                sort_order: news.length + 1,
+                sort_order: (news?.length || 0) + 1,
                 is_active: true,
                 is_featured: false,
                 slug: `news-${Date.now()}`,
                 gallery: []
             };
-            setNews([...news, newItem]);
+            console.log('Adding news item:', newItem);
+            setNews(prev => {
+                const updated = [...(prev || []), newItem];
+                console.log('Updated news list:', updated);
+                return updated;
+            });
         }
     };
 
@@ -286,9 +293,21 @@ const AdminNews = () => {
             </div>
 
             <div className="edit-section">
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', alignItems: 'center' }}>
                     <div className="section-label"><Tag /> Новости</div>
-                    <button onClick={() => addNewItem('news')} className="btn-secondary">Добавить новость</button>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                console.log('Adding new item clicked');
+                                addNewItem('news');
+                            }}
+                            className="btn-secondary"
+                            style={{ background: '#10b981', color: 'white', borderColor: '#10b981' }}
+                        >
+                            <Plus size={18} /> Добавить новость
+                        </button>
+                    </div>
                 </div>
                 {news.map((item, i) => (
                     <div key={item.id} className="list-item">
